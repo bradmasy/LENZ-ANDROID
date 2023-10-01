@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:photo_gallery/globalValues.dart';
+import 'package:photo_gallery/this_is_a_test.dart';
+import 'package:dio/dio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,15 +59,19 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
+  AppData appData = AppData();
   void _incrementCounter() {
+    // setState(() {
+    //   // This call to setState tells the Flutter framework that something has
+    //   // changed in this State, which causes it to rerun the build method below
+    //   // so that the display can reflect the updated values. If we changed
+    //   // _counter without calling setState(), then the build method would not be
+    //   // called again, and so nothing would appear to happen.
+    //   _counter++;
+    // });
+    _counter++;
+    print('$_counter');
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
     });
   }
 
@@ -112,6 +119,63 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            Expanded(child: Container(color: Colors.blue)),
+
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ThisIsATest(number: globalNumber),
+                  ),
+                );
+              },
+              child: Container(
+                width: 100,
+                height: 100,
+                color: Colors.red,
+                child: const Text('GestureDetector'),
+              ),
+            ),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onLongPress: () {
+                    appData.setNumber(_counter);
+                    print('ElevatedButton onLongPress appData.setNumber $_counter');
+                  },
+                  onPressed: () {
+                    print('ElevatedButton');
+                  },
+                  child: const Text('ElevatedButton'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    getData();
+                    print('TextButton');
+                  },
+                  child: const Text('TextButton getData'),
+                ),
+                OutlinedButton(
+                  onPressed: () {
+                    print('OutlinedButton');
+                  },
+                  child: const Text('OutlinedButton'),
+                ),
+                IconButton(
+                  onPressed: () {
+                    print('IconButton');
+                  },
+                  icon: const Icon(Icons.add),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 100,
+            ),
           ],
         ),
       ),
@@ -121,5 +185,20 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  //dio get request https://api.sampleapis.com/beers/ale
+  Future<void> getData() async {
+    final dio = Dio();
+    final response = await dio.get('https://api.sampleapis.com/beers/ale');
+    print(response.data);
+    List<Bear> bears = [];
+    // for (var element in response.data) {
+    //   bears.add(Bear.fromJson(element));
+    // }
+    bears = (response.data as List).map((e) => Bear.fromJson(e)).toList();
+    for (var element in bears) {
+      print(element.name);
+    }
   }
 }
