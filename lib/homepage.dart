@@ -36,115 +36,113 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/homepage_bg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Expanded(child: Container(color: Colors.blue)),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ThisIsATest(number: globalNumber),
+            Container(
+              margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 50),
+              child: Row(
+                children: [
+                  Image.network(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/BCIT_logo.svg/1129px-BCIT_logo.svg.png',
+                    height: 60,
+                    fit: BoxFit.fitHeight,
                   ),
-                );
-              },
-              child: Container(
-                width: 200,
-                height: 50,
-                color: Colors.red,
-                child: const Text('GestureDetector'),
+                  Expanded(child: Container()),
+                ],
               ),
             ),
-            Column(
+            const SizedBox(
+              height: 100,
+            ),
+            const Text(
+              "LENZ",
+              style: TextStyle(
+                fontSize: 99,
+                fontWeight: FontWeight.bold,
+                color: Color(0xffffffff),
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(2.0, 2.0),
+                    blurRadius: 99.0,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ],
+              ),
+            ),
+            const Text(
+              '- your story through… the eyes of a lens',
+              style: TextStyle(
+                fontSize: 18,
+                color: Color(0xffffffff),
+                fontStyle: FontStyle.italic,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(2.0, 2.0),
+                    blurRadius: 25.0,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(child: Container()),
+            Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  onLongPress: () {
-                    appState.setNumber(_counter);
-                    print(
-                        'ElevatedButton onLongPress appData.setNumber $_counter');
-                  },
-                  onPressed: () {
-                    print('ElevatedButton');
-                  },
-                  child: const Text('ElevatedButton'),
+                SizedBox(
+                  width: 150,
+                  child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                        ),
+                        backgroundColor: Colors.white,
+                        side: const BorderSide(
+                            color: Color(0xff084470),
+                            width: 4
+                        ),
+                      ),
+                      onPressed: () => context.push(AuthRoutes.login.path),
+                      child: const Text('login')),
                 ),
-                TextButton(
-                  onPressed: () {
-                    getData();
-                    print('TextButton');
-                  },
-                  child: const Text('TextButton getData'),
+                SizedBox(
+                  width: 150,
+                  child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                        ),
+                        backgroundColor: Color(0xff084470),
+                        side: const BorderSide(
+                            color: Color(0xff084470),
+                            width: 4
+                        ),
+                      ),
+                      onPressed: () => context.push(AuthRoutes.signup.path),
+                      child: const Text('Signup',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      )
+                  ),
                 ),
-                OutlinedButton(
-                  onPressed: () {
-                    print('OutlinedButton');
-                  },
-                  child: const Text('OutlinedButton'),
-                ),
-                IconButton(
-                  onPressed: () {
-                    print('IconButton');
-                  },
-                  icon: const Icon(Icons.add),
-                ),
-                ElevatedButton(
-                    onPressed: () => context.push(AuthRoutes.login.path),
-                    child: const Text('login')),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
