@@ -99,42 +99,50 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  width: 150,
+                  width: 180,
+                  height: 50,
                   child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(0.0),
                         ),
-                        backgroundColor: Colors.white,
+                        backgroundColor: Color(0xddffffff),
                         side: const BorderSide(
                             color: Color(0xff084470),
                             width: 4
                         ),
                       ),
                       onPressed: () => context.push(AuthRoutes.login.path),
-                      child: const Text('login')),
-                ),
-                SizedBox(
-                  width: 150,
-                  child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        backgroundColor: Color(0xff084470),
-                        side: const BorderSide(
-                            color: Color(0xff084470),
-                            width: 4
+                      child: const Text('Get Started',
+                        style: TextStyle(
+                          color: Color(0xff084470),
+                          fontSize: 16,
                         ),
                       ),
-                      onPressed: () => context.push(AuthRoutes.signup.path),
-                      child: const Text('Signup',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      )
+
                   ),
                 ),
+                // SizedBox(
+                //   width: 150,
+                //   child: OutlinedButton(
+                //       style: OutlinedButton.styleFrom(
+                //         shape: RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(0.0),
+                //         ),
+                //         backgroundColor: Color(0xff084470),
+                //         side: const BorderSide(
+                //             color: Color(0xff084470),
+                //             width: 4
+                //         ),
+                //       ),
+                //       onPressed: () => context.push(AuthRoutes.signup.path),
+                //       child: const Text('Create Account',
+                //         style: TextStyle(
+                //           color: Colors.white,
+                //         ),
+                //       )
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(
