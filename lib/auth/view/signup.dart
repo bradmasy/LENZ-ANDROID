@@ -8,7 +8,7 @@ class Signup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            backgroundColor: Colors.transparent,
             title: const Text('Signup')),
         body: const Center(
             child: Column(

@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         navigator: MaterialApp.router(
           title: 'LENZ',
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
             useMaterial3: true,
           ),
           routerConfig: router,
