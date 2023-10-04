@@ -2,7 +2,12 @@ import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_gallery/routes.dart';
 
-void main() => runApp(const MyApp());
+import 'auth/get_it_setup.dart';
+
+void main() {
+  getItAuthSetup();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

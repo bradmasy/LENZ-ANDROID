@@ -1,22 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:photo_gallery/routes.dart';
 import 'package:photo_gallery/this_is_a_test.dart';
 
 import 'auth/auth_routes.dart';
 import 'globals.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -24,15 +15,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   AppState appState = AppState();
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter = appState.number++;
-    });
-    print('$_counter');
-    // setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +30,8 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 50),
+              margin: const EdgeInsets.only(
+                  bottom: 20, left: 20, right: 20, top: 50),
               child: Row(
                 children: [
                   Image.network(
@@ -102,47 +85,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 180,
                   height: 50,
                   child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0.0),
-                        ),
-                        backgroundColor: Color(0xddffffff),
-                        side: const BorderSide(
-                            color: Color(0xff084470),
-                            width: 4
-                        ),
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0.0),
                       ),
-                      onPressed: () => context.push(AuthRoutes.login.path),
-                      child: const Text('Get Started',
-                        style: TextStyle(
-                          color: Color(0xff084470),
-                          fontSize: 16,
-                        ),
+                      backgroundColor: Color(0xddffffff),
+                      side:
+                          const BorderSide(color: Color(0xff084470), width: 4),
+                    ),
+                    onPressed: () => context.push(AuthRoutes.login.path),
+                    child: const Text(
+                      'Get Started',
+                      style: TextStyle(
+                        color: Color(0xff084470),
+                        fontSize: 16,
                       ),
-
+                    ),
                   ),
                 ),
-                // SizedBox(
-                //   width: 150,
-                //   child: OutlinedButton(
-                //       style: OutlinedButton.styleFrom(
-                //         shape: RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(0.0),
-                //         ),
-                //         backgroundColor: Color(0xff084470),
-                //         side: const BorderSide(
-                //             color: Color(0xff084470),
-                //             width: 4
-                //         ),
-                //       ),
-                //       onPressed: () => context.push(AuthRoutes.signup.path),
-                //       child: const Text('Create Account',
-                //         style: TextStyle(
-                //           color: Colors.white,
-                //         ),
-                //       )
-                //   ),
-                // ),
               ],
             ),
             const SizedBox(

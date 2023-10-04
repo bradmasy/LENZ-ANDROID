@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:photo_gallery/auth/services/auth_service.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -155,6 +157,8 @@ class _SignupState extends State<Signup> {
     if (_passwordAlert.isNotEmpty || _emailAlert.isNotEmpty) {
       return;
     }
+
+    await GetIt.I.get<AuthService>().signUp(_emailController.text, _passwordController.text);
 
     try {
       Navigator.of(context).pop();

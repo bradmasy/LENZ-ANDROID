@@ -16,8 +16,7 @@ final GoRouter router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
         path: Routes.home.path,
-        builder: (context, state) =>
-            const MyHomePage(title: 'Flutter Demo Home Page')),
+        builder: (context, state) => const MyHomePage()),
     authRoutes
   ],
 );
