@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:photo_gallery/auth/services/auth_service.dart';
+
+import '../domain/app_user.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -157,11 +160,16 @@ class _SignupState extends State<Signup> {
     if (_passwordAlert.isNotEmpty || _emailAlert.isNotEmpty) {
       return;
     }
-
-    await GetIt.I.get<AuthService>().signUp(_emailController.text, _passwordController.text);
-
     try {
-      Navigator.of(context).pop();
+      Map<String,dynamic> data = await GetIt.I.get<AuthService>().signUp(_emailController.text, _passwordController.text);
+      if (data['appUser'] != null) {
+        showToast('Signup successful', duration: const Duration(seconds: 2) ,
+            onDismiss: () {
+              Navigator.pop(context, data['appUser']);
+        });
+      } else {
+        showToast(data['message'] + ': Signup failed', duration: const Duration(seconds: 2));
+      }
     } catch (e) {
       print(e);
     }

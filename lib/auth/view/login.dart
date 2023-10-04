@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:photo_gallery/auth/domain/app_user.dart';
 
 import '../auth_routes.dart';
 import '../services/auth_service.dart';
@@ -123,8 +125,15 @@ class _LoginState extends State<Login> {
   Future<void> _login() async {
     String email = _emailController.text;
     String password = _passwordController.text;
-    await GetIt.I.get<AuthService>().signIn(email, password);
-
+    try {
+      Map<String,dynamic> data = await GetIt.I.get<AuthService>().signIn(email, password);
+      AppUser appUser = data['appUser'] ?? AppUser();
+      print(appUser.token);
+      showToast(appUser.token ?? 'Token Error');
+    } catch (e) {
+      showToast('Error logging in');
+      return;
+    }
     print('login');
   }
 }

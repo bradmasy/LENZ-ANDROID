@@ -39,6 +39,7 @@ dependencies:
   easy_splash_screen: ^1.0.4
   get_it: ^7.6.4
   provider: ^6.0.5
+  oktoast: ^3.3.2
 
 dev_dependencies:
   flutter_test:

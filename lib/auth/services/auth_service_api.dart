@@ -16,25 +16,45 @@ class AuthServiceAPI implements AuthService {
   }
 
   @override
-  Future<AppUser> signUp(String email, String password) async {
+  Future<Map<String, dynamic>> signUp(String email, String password) async {
     SignupDTO signupDTO = SignupDTO(_getRandomString(10), email, password,
         _getRandomString(5), _getRandomString(7));
-    final Response res = await _dio.post('/signup', data: signupDTO);
-    final dynamic data = res.data;
-    AppUser appUser = AppUser();
-    appUser.userid = data['id'];
-    appUser.username = data['username'];
-    appUser.email = data['email'];
-    return appUser;
+    Map<String, dynamic> signupDTOJson = signupDTO.toJson();
+    try {
+      final Response res = await _dio.post('/signup', data: signupDTOJson);
+      final dynamic data = res.data;
+      final String message = data['message'] ?? 'Error';
+      final appUserData = data['user'] ?? {};
+      AppUser appUser = AppUser();
+      appUser.userid = appUserData['id'];
+      appUser.username = appUserData['username'];
+      appUser.email = appUserData['email'];
+      final Map<String, dynamic> result = {'message': message, 'appUser': appUser};
+      return result;
+    } catch (e) {
+      print(e);
+      return {'message': 'Error'};
+    }
   }
 
   @override
-  Future<AppUser> signIn(String email, String password) async {
-    final Response res =
-        await _dio.post('/login', data: LoginDTO(email, password));
-    AppUser appUser = AppUser();
-    appUser.token = res.data['token'];
-    return appUser;
+  Future<Map<String, dynamic>> signIn(String email, String password) async {
+    Map<String, dynamic> loginDTOJson = LoginDTO(email, password).toJson();
+    try {
+      final Response res =
+          await _dio.post('/login', data: loginDTOJson);
+      //print res data
+      print(res.data);
+      AppUser appUser = AppUser();
+      appUser.token = res.data['Token'];
+      appUser.userid = int.parse(res.data['UserId'] ?? 0);
+      final Map<String, dynamic> result = {'appUser': appUser};
+      print(appUser.token);
+      return result;
+    } catch (e) {
+      print(e);
+      return {'message': 'Error'};
+    }
   }
 
   @override
