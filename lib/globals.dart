@@ -1,5 +1,3 @@
-
-
 import 'dart:core';
 
 int globalNumber = 66;
@@ -8,7 +6,7 @@ double globalDouble = 0.0;
 var globalVar = 'This is a global var';
 bool globalBool = false;
 
-class AppData {
+class AppState {
   int number = 0;
   String string = 'This is a string';
   bool boolTest = false;

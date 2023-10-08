@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'globalValues.dart';
+import 'globals.dart';
 
 class ThisIsATest extends StatefulWidget {
   int number;

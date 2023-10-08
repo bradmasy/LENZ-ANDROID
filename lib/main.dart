@@ -1,204 +1,63 @@
+import 'package:easy_splash_screen/easy_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:photo_gallery/globalValues.dart';
-import 'package:photo_gallery/this_is_a_test.dart';
-import 'package:dio/dio.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:photo_gallery/routes.dart';
+
+import 'auth/get_it_setup.dart';
 
 void main() {
+  getItAuthSetup();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  AppData appData = AppData();
-  void _incrementCounter() {
-    // setState(() {
-    //   // This call to setState tells the Flutter framework that something has
-    //   // changed in this State, which causes it to rerun the build method below
-    //   // so that the display can reflect the updated values. If we changed
-    //   // _counter without calling setState(), then the build method would not be
-    //   // called again, and so nothing would appear to happen.
-    //   _counter++;
-    // });
-    _counter++;
-    print('$_counter');
-    setState(() {
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+    return OKToast(
+      child: MaterialApp(
+        title: 'LENZ',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+          useMaterial3: true,
+        ),
+        home: EasySplashScreen(
+          logo: Image.network(
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/BCIT_logo.svg/1129px-BCIT_logo.svg.png',
+            height: 200,
+            fit: BoxFit.fitHeight,
+          ),
+          title: const Text(
+            'LENZ',
+            style: TextStyle(
+              fontSize: 64,
+              fontWeight: FontWeight.bold,
+              color: Color(0xff084470),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          backgroundColor: const Color(0xffffffff),
+          showLoader: true,
+          loaderColor: const Color(0xff084470),
+          loadingText: const Text(
+            'your story through… the eyes of a lens',
+            style: TextStyle(
+              fontSize: 12,
+              color: Color(0xff084470),
+              fontStyle: FontStyle.italic,
             ),
-            Expanded(child: Container(color: Colors.blue)),
-
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ThisIsATest(number: globalNumber),
-                  ),
-                );
-              },
-              child: Container(
-                width: 100,
-                height: 100,
-                color: Colors.red,
-                child: const Text('GestureDetector'),
-              ),
+          ),
+          navigator: MaterialApp.router(
+            title: 'LENZ',
+            theme: ThemeData(
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+              useMaterial3: true,
             ),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onLongPress: () {
-                    appData.setNumber(_counter);
-                    print('ElevatedButton onLongPress appData.setNumber $_counter');
-                  },
-                  onPressed: () {
-                    print('ElevatedButton');
-                  },
-                  child: const Text('ElevatedButton'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    getData();
-                    print('TextButton');
-                  },
-                  child: const Text('TextButton getData'),
-                ),
-                OutlinedButton(
-                  onPressed: () {
-                    print('OutlinedButton');
-                  },
-                  child: const Text('OutlinedButton'),
-                ),
-                IconButton(
-                  onPressed: () {
-                    print('IconButton');
-                  },
-                  icon: const Icon(Icons.add),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 100,
-            ),
-          ],
+            routerConfig: router,
+          ),
+          durationInSeconds: 3,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
-  }
-
-  //dio get request https://api.sampleapis.com/beers/ale
-  Future<void> getData() async {
-    final dio = Dio();
-    final response = await dio.get('https://api.sampleapis.com/beers/ale');
-    print(response.data);
-    List<Bear> bears = [];
-    // for (var element in response.data) {
-    //   bears.add(Bear.fromJson(element));
-    // }
-    bears = (response.data as List).map((e) => Bear.fromJson(e)).toList();
-    for (var element in bears) {
-      print(element.name);
-    }
   }
 }
