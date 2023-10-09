@@ -1,10 +1,12 @@
 import 'package:go_router/go_router.dart';
 
 import 'auth/auth_routes.dart';
+import 'dash_page.dart';
 import 'homepage.dart';
 
 enum Routes {
-  home(path: '/');
+  home(path: '/'),
+  dash(path: '/dash');
 
   final String path;
 
@@ -17,6 +19,8 @@ final GoRouter router = GoRouter(
     GoRoute(
         path: Routes.home.path,
         builder: (context, state) => const MyHomePage()),
-    authRoutes
+    authRoutes,
+    GoRoute(
+        path: Routes.dash.path, builder: (context, state) => const DashPage()),
   ],
 );
