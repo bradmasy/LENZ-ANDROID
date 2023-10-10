@@ -1,7 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:photo_gallery/this_is_a_test.dart';
+import 'package:photo_gallery/auth/domain/app_user.dart';
+import 'package:photo_gallery/routes.dart';
+import 'package:provider/provider.dart';
 
 import 'auth/auth_routes.dart';
 import 'globals.dart';
@@ -14,8 +15,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  AppState appState = AppState();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       side:
                           const BorderSide(color: Color(0xff084470), width: 4),
                     ),
-                    onPressed: () => context.push(AuthRoutes.login.path),
+                    onPressed: _loginThen,
                     child: const Text(
                       'Get Started',
                       style: TextStyle(
@@ -114,18 +113,11 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  //dio get request https://api.sampleapis.com/beers/ale
-  Future<void> getData() async {
-    final dio = Dio();
-    final response = await dio.get('https://api.sampleapis.com/beers/ale');
-    print(response.data);
-    List<Bear> bears = [];
-    // for (var element in response.data) {
-    //   bears.add(Bear.fromJson(element));
-    // }
-    bears = (response.data as List).map((e) => Bear.fromJson(e)).toList();
-    for (var element in bears) {
-      print(element.name);
+  void _loginThen() async {
+    AppUser? appUser = await context.push(AuthRoutes.login.path) as AppUser;
+    if (context.mounted && appUser.token != null) {
+      context.go(Routes.dash.path);
     }
+    return;
   }
 }
