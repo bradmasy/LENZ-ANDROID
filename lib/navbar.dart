@@ -1,10 +1,6 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
-import 'auth/auth_routes.dart';
 import 'globals.dart';
+
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -20,10 +16,11 @@ class _MyNavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: Container(),
         bottomNavigationBar: NavigationBar(
             height: 60,
             selectedIndex: index,
-            // onDestinationSelected: (index) => setState(() => this.index = index),
+            onDestinationSelected: (index) => setState(() => this.index = index),
             destinations: const [
           NavigationDestination(
               icon: Icon(Icons.home_outlined),
