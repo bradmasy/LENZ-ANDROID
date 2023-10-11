@@ -10,6 +10,8 @@ import 'package:photo_gallery/auth/domain/dtos/signup_dto.dart';
 import 'package:photo_gallery/auth/services/auth_service.dart';
 import 'package:photo_gallery/globals.dart';
 
+import '../../DataModel/GlobalDataModel.dart';
+
 class AuthServiceAPI implements AuthService {
   final _dio = Dio();
 
@@ -52,7 +54,6 @@ class AuthServiceAPI implements AuthService {
       AppUser appUser = AppUser();
       appUser.token = res.data['Token'];
       appUser.userid = int.parse(res.data['UserId'] ?? 0);
-
       GetIt.I.get<AppState>().setAppUser(appUser);
       final Map<String, dynamic> result = {'appUser': appUser};
       print(appUser.token);

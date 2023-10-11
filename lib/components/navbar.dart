@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'globals.dart';
+import '../globals.dart';
 
 class NavBar extends StatefulWidget {
   final GoRouter router;
-
   const NavBar({required this.router, Key? key}) : super(key: key);
 
   @override
@@ -36,7 +35,7 @@ class _MyNavBarState extends State<NavBar> {
         route = '/home'; // Default route if index is not matched
         break;
     }
-    widget.router.go(route);
+    widget.router.push(route);
   }
 
   @override
