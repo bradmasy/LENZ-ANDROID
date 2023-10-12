@@ -47,9 +47,12 @@ class _AllPhotosState extends State<AllPhotos> {
           title: const Text('All Photos'),
           actions: [
             IconButton(
-                onPressed: () {
+                onPressed: () async {
                   getAllPhotos();
-                  context.push('/add_photo', extra: _cameraDescription);
+                  var result = await context.push('/add_photo', extra: _cameraDescription);
+                  if (result != null) {
+                    getAllPhotos();
+                  }
                 },
                 icon: const Icon(Icons.add))
           ]),

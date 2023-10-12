@@ -166,8 +166,8 @@ class _AddPhotoState extends State<AddPhoto> {
     );
     print(result);
     if (result['id'] != null) {
-      showToast('Album Added', duration: const Duration(seconds: 2), onDismiss: () {
-        Navigator.pop(context);
+      showToast('Photo Added', duration: const Duration(seconds: 2), onDismiss: () {
+        Navigator.pop(context, true);
       });
     }
   }

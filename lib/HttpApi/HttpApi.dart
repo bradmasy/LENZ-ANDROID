@@ -135,7 +135,6 @@ class HttpApi implements HttpApiService {
     String description = '',
 }) async {
     try {
-      print(res.data)
       final Response res = await _dio.post('/photo-album-create',
           data: {
         'title': title,
