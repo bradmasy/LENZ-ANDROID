@@ -218,7 +218,7 @@ class AddAlbum extends StatelessWidget {
     print(result);
     if (result['id'] != null) {
       showToast('Album Added', duration: const Duration(seconds: 2), onDismiss: () {
-        Navigator.pop(context);
+        Navigator.pop(context, true);
       });
     }
   }

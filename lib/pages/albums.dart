@@ -33,9 +33,12 @@ class _AlbumsState extends State<Albums> {
           title: const Text('Albums'),
           actions: [
             IconButton(
-                onPressed: () {
+                onPressed: () async {
                   getAlbums();
-                  context.push('/add_album');
+                  final result = await context.push('/add_album');
+                  if (result != null) {
+                    getAlbums();
+                  }
                 },
                 icon: const Icon(Icons.add))
           ]),

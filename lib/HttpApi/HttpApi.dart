@@ -135,11 +135,12 @@ class HttpApi implements HttpApiService {
     String description = '',
 }) async {
     try {
+      print(res.data)
       final Response res = await _dio.post('/photo-album-create',
           data: {
         'title': title,
         'description': description,
-            'userId': loginUser.userid,
+            'user_id': loginUser.userid,
       });
       final dynamic data = res.data;
       return data;
@@ -148,6 +149,7 @@ class HttpApi implements HttpApiService {
       return {'message': 'Error'};
     }
   }
+
 
   Future<dynamic> uploadPhotos({
     String title = '',
