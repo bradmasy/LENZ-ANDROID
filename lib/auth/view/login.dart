@@ -129,7 +129,7 @@ class _LoginState extends State<Login> {
       AppUser appUser = data['appUser'];
       loginUser = appUser;
       print(appUser.token);
-      showToast(appUser.token ?? 'Token Error');
+      // showToast(appUser.token ?? 'Token Error');
 
       if (context.mounted && appUser.token != null) {
         // Navigator.pop(context, appUser);
