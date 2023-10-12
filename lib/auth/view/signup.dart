@@ -103,6 +103,7 @@ class _SignupState extends State<Signup> {
                   border: OutlineInputBorder(),
                   labelText: 'Password',
                 ),
+                obscureText: true,
               ),
             ),
             Container(
@@ -113,6 +114,7 @@ class _SignupState extends State<Signup> {
                   border: OutlineInputBorder(),
                   labelText: 'Confirm password',
                 ),
+                obscureText: true,
               ),
             ),
             _passwordAlert.isNotEmpty

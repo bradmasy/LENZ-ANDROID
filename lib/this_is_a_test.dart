@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'globals.dart';
-
 class ThisIsATest extends StatefulWidget {
   int number;
   ThisIsATest({Key? key, required this.number}) : super(key: key);
@@ -19,7 +17,7 @@ class _ThisIsATestState extends State<ThisIsATest> {
       print('waited 2 seconds'),
     );
 
-    print('globalNumber is $globalNumber');
+    print('globalNumber is ');
     print('initState');
   }
 
