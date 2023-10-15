@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:photo_gallery/routes.dart';
 import 'package:provider/provider.dart';
 
-import '../auth/services/auth_service.dart';
+import '../auth/services/AuthService.dart';
 import '../globals.dart';
 
 class DashPage extends StatelessWidget {

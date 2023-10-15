@@ -1,10 +1,9 @@
 
 import 'package:dio/dio.dart';
-import 'package:photo_gallery/auth/domain/app_user.dart';
 import 'dart:io' as io;
 import 'dart:convert';
 import '../DataModel/GlobalDataModel.dart';
-import '../auth/domain/constants.dart';
+import '../auth/domain/AuthConstants.dart';
 import 'HttpApiService.dart';
 
 class HttpApi implements HttpApiService {

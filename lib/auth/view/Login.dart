@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:photo_gallery/auth/domain/app_user.dart';
+import 'package:photo_gallery/auth/domain/AppUser.dart';
 
 import '../../DataModel/GlobalDataModel.dart';
 import '../../routes.dart';
-import '../auth_routes.dart';
-import '../services/auth_service.dart';
+import '../AuthRoutes.dart';
+import '../services/AuthService.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

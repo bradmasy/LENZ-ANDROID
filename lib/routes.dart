@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:photo_gallery/auth/domain/app_user.dart';
+import 'package:photo_gallery/auth/domain/AppUser.dart';
 import 'package:photo_gallery/globals.dart';
 import 'package:provider/provider.dart';
 import 'package:camera/camera.dart';
-import 'package:go_router/go_router.dart';
 import 'package:photo_gallery/pages/add_photo.dart';
 import 'package:photo_gallery/pages/albums.dart';
 import 'package:photo_gallery/pages/add_album.dart';
@@ -15,8 +14,7 @@ import 'package:photo_gallery/pages/dashboard.dart';
 import 'package:photo_gallery/pages/photos.dart';
 
 import 'DataModel/GlobalDataModel.dart';
-import 'auth/auth_routes.dart';
-import 'pages/dash_page.dart';
+import 'auth/AuthRoutes.dart';
 import 'homepage.dart';
 
 enum Routes {

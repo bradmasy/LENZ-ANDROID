@@ -1,5 +1,5 @@
 
-import 'package:photo_gallery/auth/domain/app_user.dart';
+import 'package:photo_gallery/auth/domain/AppUser.dart';
 
 import '../HttpApi/HttpApi.dart';
 
