@@ -59,7 +59,7 @@ class _AlbumsState extends State<Albums> {
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xff084470), Color(0x440c7b93)])),
+                  colors: [Color(0xffffffff), Color(0xffffffff)])),
           child:
           GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

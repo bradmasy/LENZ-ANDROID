@@ -58,6 +58,7 @@ class _AddAlbumPhotoState extends State<AddAlbumPhoto> {
                       end: Alignment.bottomCenter,
                       colors: [Color(0xff084470), Color(0xff0c7b93)])),
               child:
+              photos.isEmpty ? const Center(child: CircularProgressIndicator(color: Colors.white)) :
               GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: crossAxisCount,
