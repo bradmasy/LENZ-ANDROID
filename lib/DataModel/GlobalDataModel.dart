@@ -64,11 +64,13 @@ class AlbumPhoto {
   final int id;
   final int photoAlbumId;
   final int photoId;
+  late Photo photo;
 
   AlbumPhoto({
     this.id = 0,
     this.photoAlbumId = 0,
     this.photoId = 0,
+    required this.photo,
   });
 
   factory AlbumPhoto.fromJson(Map<String, dynamic> json) {
@@ -76,6 +78,7 @@ class AlbumPhoto {
       id: json['id'] as int,
       photoAlbumId: json['photoAlbumId'] as int,
       photoId: json['photoId'] as int,
+      photo: Photo.fromJson(json['photo']),
     );
   }
 }

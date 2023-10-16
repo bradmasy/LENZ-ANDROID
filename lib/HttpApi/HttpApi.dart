@@ -79,8 +79,8 @@ class HttpApi implements HttpApiService {
     try {
       final Response res = await _dio.get('/photo-album-photo/$id');
       final dynamic data = res.data;
-      final List<dynamic> photoAlbumPhotos = data['photoAlbumPhotos'] ?? [];
-      final Map<String, dynamic> result = {'photoAlbumPhotos': photoAlbumPhotos};
+      final List<dynamic> photoAlbumPhotos = data['results'] ?? [];
+      final Map<String, dynamic> result = {'results': photoAlbumPhotos};
       return result;
     } catch (e) {
       print(e);
@@ -103,12 +103,21 @@ class HttpApi implements HttpApiService {
   }
 
   @override
-  Future<Map<String, dynamic>> postCreatePhotoAlbumPhotoLink() async {
+  Future<Map<String, dynamic>> postCreatePhotoAlbumPhotoLink({
+    int photo_id = 0,
+    int photo_album_id =  0,
+  }) async {
+    if (photo_album_id == 0 || photo_id == 0) {
+      return {'message': 'Error'};
+    }
     try {
-      final Response res = await _dio.post('/photo-album-photo');
+      final Response res = await _dio.post('/photo-album-photo', data: {
+        'photo_id': photo_id,
+        'photo_album_id': photo_album_id,
+      });
       final dynamic data = res.data;
-      final List<dynamic> createPhotoAlbumPhotoLink = data['createPhotoAlbumPhotoLink'] ?? [];
-      final Map<String, dynamic> result = {'createPhotoAlbumPhotoLink': createPhotoAlbumPhotoLink};
+      final Map<String, dynamic> createPhotoAlbumPhotoLink = data ?? [];
+      final Map<String, dynamic> result = {'result': createPhotoAlbumPhotoLink};
       return result;
     } catch (e) {
       print(e);

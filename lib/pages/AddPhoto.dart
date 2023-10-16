@@ -38,7 +38,7 @@ class _AddPhotoState extends State<AddPhoto> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Add Album'),
+          title: const Text('Add Photo'),
         ),
         //add a return button
         body: Center(
@@ -56,8 +56,8 @@ class _AddPhotoState extends State<AddPhoto> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       return Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 300,
+                        // width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.5,
                         child: CameraPreview(_controller),
                       );
                     } else {
@@ -124,7 +124,7 @@ class _AddPhotoState extends State<AddPhoto> {
                             colors: [Color(0xff084470), Color(0xff0c7b93)])),
                     child: const Center(
                       child: Text(
-                        'Add Album',
+                        'Add Photo',
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

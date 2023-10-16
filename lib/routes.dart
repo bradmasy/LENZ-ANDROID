@@ -4,14 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:photo_gallery/auth/domain/AppUser.dart';
 import 'package:photo_gallery/globals.dart';
+import 'package:photo_gallery/pages/AddAlbumPhoto.dart';
+import 'package:photo_gallery/pages/AlbumPhotos.dart';
 import 'package:provider/provider.dart';
 import 'package:camera/camera.dart';
-import 'package:photo_gallery/pages/add_photo.dart';
-import 'package:photo_gallery/pages/albums.dart';
-import 'package:photo_gallery/pages/add_album.dart';
-import 'package:photo_gallery/pages/all_photos.dart';
+import 'package:photo_gallery/pages/AddPhoto.dart';
+import 'package:photo_gallery/pages/Albums.dart';
+import 'package:photo_gallery/pages/AddAlbum.dart';
+import 'package:photo_gallery/pages/AllPhotos.dart';
 import 'package:photo_gallery/pages/dashboard.dart';
-import 'package:photo_gallery/pages/photos.dart';
 
 import 'DataModel/GlobalDataModel.dart';
 import 'auth/AuthRoutes.dart';
@@ -29,7 +30,9 @@ enum Routes {
 
   allPhotos(path: '/all_photos'),
 
-  addAlbum(path: '/add_album');
+  addAlbum(path: '/add_album'),
+
+  addAlbumPhoto(path: '/add_album_photo');
 
   final String path;
 
@@ -65,6 +68,10 @@ final GoRouter router = GoRouter(
     }),
     GoRoute(
         path: Routes.allPhotos.path, builder: (context, state) => const AllPhotos()),
+    GoRoute(path: Routes.addAlbumPhoto.path, builder: (context, state) {
+      Album album = state.extra as Album;
+      return AddAlbumPhoto(album: album);
+    }),
   ],
 );
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:photo_gallery/components/album_tile1.dart';
 
 import '../DataModel/GlobalDataModel.dart';
+import '../components/AlbumTile1.dart';
 
 class Albums extends StatefulWidget {
   const Albums({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class Albums extends StatefulWidget {
 
 class _AlbumsState extends State<Albums> {
   List<Album> albums = [];
-
+  int crossAxisCount = 2;
   @override
   void initState() {
     super.initState();
@@ -33,6 +33,13 @@ class _AlbumsState extends State<Albums> {
           title: const Text('Albums'),
           actions: [
             IconButton(
+                onPressed: () {
+                  crossAxisCount = crossAxisCount > 2 ? 1 : crossAxisCount + 1;
+                  setState(() {
+                  });
+                },
+                icon: const Icon(Icons.table_rows_outlined)),
+            IconButton(
                 onPressed: () async {
                   getAlbums();
                   final result = await context.push('/add_album');
@@ -46,21 +53,25 @@ class _AlbumsState extends State<Albums> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          margin: const EdgeInsets.only(left: 10, right: 10,),
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                  topLeft: Radius.circular(0), topRight: Radius.circular(0)),
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [Color(0xff084470), Color(0x440c7b93)])),
-          child: GridView.count(
-            childAspectRatio: 0.80,
-            crossAxisCount: 2,
-            physics: const BouncingScrollPhysics(),
-            children: List.generate(albums.length,(index){
-              return AlbumTile1(album: albums[index]);
-            }),
+          child:
+          GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 0,
+              // width / height: fixed for *all* items
+              childAspectRatio: MediaQuery.of(context).size.width / crossAxisCount / 150,
+            ),
+            // return a custom ItemCard
+            itemBuilder: (context, index) =>AlbumTile1(album: albums[index]),
+            itemCount: albums.length,
           ),
         ),
       ),

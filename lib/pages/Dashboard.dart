@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:photo_gallery/pages/albums.dart';
-import 'package:photo_gallery/pages/photos.dart';
+import 'package:photo_gallery/pages/Albums.dart';
 
 import '../components/navbar.dart';
 import '../routes.dart';
-import 'all_photos.dart';
+import 'AllPhotos.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
