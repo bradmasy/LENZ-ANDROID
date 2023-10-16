@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../DataModel/GlobalDataModel.dart';
 import '../main.dart';
@@ -26,6 +27,7 @@ class _AddPhotoState extends State<AddPhoto> {
   @override
   void initState() {
     super.initState();
+    Permission.camera.status.then((status) {});
     _controller = CameraController(
       widget.camera as CameraDescription,
       ResolutionPreset.medium,
