@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:photo_gallery/auth/domain/app_user.dart';
+import 'package:photo_gallery/auth/domain/AppUser.dart';
 
-import '../auth_routes.dart';
-import '../services/auth_service.dart';
+import '../../DataModel/GlobalDataModel.dart';
+import '../../routes.dart';
+import '../AuthRoutes.dart';
+import '../services/AuthService.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -114,6 +116,7 @@ class _LoginState extends State<Login> {
 
   void _signup() async {
     AppUser _appUser = await context.push(AuthRoutes.signup.path) as AppUser;
+    loginUser = _appUser;
     _emailController.text = _appUser.email!;
   }
 
@@ -124,11 +127,14 @@ class _LoginState extends State<Login> {
     try {
       Map<String, dynamic> data = await GetIt.I.get<AuthService>().signIn(email, password);
       AppUser appUser = data['appUser'];
-      // print(appUser.token);
+      loginUser = appUser;
+      print(appUser.token);
       // showToast(appUser.token ?? 'Token Error');
 
       if (context.mounted && appUser.token != null) {
-        Navigator.pop(context, appUser);
+        // Navigator.pop(context, appUser);
+        httpApi.setToken(appUser.token!);
+        context.go(Routes.dash.path);
       }
     } catch (e) {
       showToast('Error logging in');

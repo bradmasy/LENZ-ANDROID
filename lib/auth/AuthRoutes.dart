@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:photo_gallery/auth/view/login.dart';
-import 'package:photo_gallery/auth/view/signup.dart';
+import 'package:photo_gallery/auth/view/Login.dart';
+import 'package:photo_gallery/auth/view/Signup.dart';
 
 enum AuthRoutes {
   auth(relativePath: '/', path: '/auth'),

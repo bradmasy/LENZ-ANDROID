@@ -6,7 +6,7 @@ import 'package:photo_gallery/globals.dart';
 import 'package:photo_gallery/routes.dart';
 import 'package:provider/provider.dart';
 
-import 'auth/get_it_setup.dart';
+import 'auth/GetItAuthSetup.dart';
 
 void main() {
   GetIt.I.registerSingleton<AppState>(AppState());
@@ -34,6 +34,10 @@ class MyApp extends StatelessWidget {
                 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/BCIT_logo.svg/1129px-BCIT_logo.svg.png',
                 height: 200,
                 fit: BoxFit.fitHeight,
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return const Text('BCIT');
+                },
               ),
               title: const Text(
                 'LENZ',
@@ -62,7 +66,7 @@ class MyApp extends StatelessWidget {
                 ),
                 routerConfig: router,
               ),
-              durationInSeconds: 3,
+              durationInSeconds: 1,
             ),
           ),
         ));

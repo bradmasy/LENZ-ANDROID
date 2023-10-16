@@ -1,7 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
-import 'package:photo_gallery/auth/domain/app_user.dart';
+import 'package:photo_gallery/auth/domain/AppUser.dart';
 
 class AppState extends ChangeNotifier {
   AppUser? appUser;
