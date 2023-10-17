@@ -1,12 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:photo_gallery/auth/domain/app_user.dart';
+import 'package:photo_gallery/auth/domain/AppUser.dart';
 
-import '../auth_routes.dart';
-import '../services/auth_service.dart';
+import '../../DataModel/GlobalDataModel.dart';
+import '../../routes.dart';
+import '../AuthRoutes.dart';
+import '../services/AuthService.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -15,7 +16,8 @@ class Login extends StatefulWidget {
   State<Login> createState() {
     // Avoid using private types in public APIs.
     return _LoginState();
-  }}
+  }
+}
 
 class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
@@ -37,8 +39,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            title: const Text('Login')),
+            backgroundColor: Colors.transparent, title: const Text('Login')),
         body: Center(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +64,6 @@ class _LoginState extends State<Login> {
                   border: OutlineInputBorder(),
                   labelText: 'Email',
                 ),
-
               ),
             ),
             Container(
@@ -74,6 +74,7 @@ class _LoginState extends State<Login> {
                   border: OutlineInputBorder(),
                   labelText: 'Password',
                 ),
+                obscureText: true,
               ),
             ),
             Expanded(child: Container()),
@@ -85,14 +86,9 @@ class _LoginState extends State<Login> {
                       borderRadius: BorderRadius.circular(0.0),
                     ),
                     backgroundColor: Colors.white,
-                    side: const BorderSide(
-                        color: Color(0xff084470),
-                        width: 4
-                    ),
+                    side: const BorderSide(color: Color(0xff084470), width: 4),
                   ),
-                  onPressed: () {
-                     _login();
-                  },
+                  onPressed: _login,
                   child: const Text('login')),
             ),
             SizedBox(
@@ -103,17 +99,13 @@ class _LoginState extends State<Login> {
                       borderRadius: BorderRadius.circular(0.0),
                     ),
                     backgroundColor: Colors.white,
-                    side: const BorderSide(
-                        color: Colors.white,
-                        width: 0
-                    ),
+                    side: const BorderSide(color: Colors.white, width: 0),
                   ),
-                  onPressed: () => context.push(AuthRoutes.signup.path),
-                  child: const Text('Don\'t have an account? Signup',
-                    style: TextStyle(
-                    ),
-                  )
-              ),
+                  onPressed: _signup,
+                  child: const Text(
+                    'Don\'t have an account? Signup',
+                    style: TextStyle(),
+                  )),
             ),
             SizedBox(
               height: 100,
@@ -122,14 +114,28 @@ class _LoginState extends State<Login> {
         )));
   }
 
+  void _signup() async {
+    AppUser _appUser = await context.push(AuthRoutes.signup.path) as AppUser;
+    loginUser = _appUser;
+    _emailController.text = _appUser.email!;
+  }
+
   Future<void> _login() async {
     String email = _emailController.text;
     String password = _passwordController.text;
+
     try {
-      Map<String,dynamic> data = await GetIt.I.get<AuthService>().signIn(email, password);
-      AppUser appUser = data['appUser'] ?? AppUser();
+      Map<String, dynamic> data = await GetIt.I.get<AuthService>().signIn(email, password);
+      AppUser appUser = data['appUser'];
+      loginUser = appUser;
       print(appUser.token);
-      showToast(appUser.token ?? 'Token Error');
+      // showToast(appUser.token ?? 'Token Error');
+
+      if (context.mounted && appUser.token != null) {
+        // Navigator.pop(context, appUser);
+        httpApi.setToken(appUser.token!);
+        context.go(Routes.dash.path);
+      }
     } catch (e) {
       showToast('Error logging in');
       return;

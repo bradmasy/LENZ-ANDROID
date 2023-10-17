@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:photo_gallery/auth/services/auth_service.dart';
-
-import '../domain/app_user.dart';
+import 'package:photo_gallery/auth/services/AuthService.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -103,6 +100,7 @@ class _SignupState extends State<Signup> {
                   border: OutlineInputBorder(),
                   labelText: 'Password',
                 ),
+                obscureText: true,
               ),
             ),
             Container(
@@ -113,6 +111,7 @@ class _SignupState extends State<Signup> {
                   border: OutlineInputBorder(),
                   labelText: 'Confirm password',
                 ),
+                obscureText: true,
               ),
             ),
             _passwordAlert.isNotEmpty
@@ -140,7 +139,7 @@ class _SignupState extends State<Signup> {
                     side: const BorderSide(color: Color(0xff084470), width: 4),
                   ),
                   onPressed: () {
-                    _Signup();
+                    _signup();
                   },
                   child: const Text(
                     'Sign Up',
@@ -156,7 +155,7 @@ class _SignupState extends State<Signup> {
         )));
   }
 
-  Future<void> _Signup() async {
+  Future<void> _signup() async {
     if (_passwordAlert.isNotEmpty || _emailAlert.isNotEmpty) {
       return;
     }

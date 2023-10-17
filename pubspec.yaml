@@ -40,6 +40,8 @@ dependencies:
   get_it: ^7.6.4
   provider: ^6.0.5
   oktoast: ^3.3.2
+  camera: ^0.10.5+5
+  permission_handler: ^11.0.1
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +53,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  test: ^1.24.3
+  mockito: ^5.4.2
+  build_runner: ^2.4.6
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

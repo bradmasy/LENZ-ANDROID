@@ -2,17 +2,22 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:dio/dio.dart';
-import 'package:photo_gallery/auth/domain/app_user.dart';
-import 'package:photo_gallery/auth/domain/constants.dart';
-import 'package:photo_gallery/auth/domain/dtos/login_dto.dart';
-import 'package:photo_gallery/auth/domain/dtos/signup_dto.dart';
-import 'package:photo_gallery/auth/services/auth_service.dart';
+import 'package:get_it/get_it.dart';
+import 'package:photo_gallery/auth/domain/AppUser.dart';
+import 'package:photo_gallery/auth/domain/AuthConstants.dart';
+import 'package:photo_gallery/auth/domain/dtos/LoginDTO.dart';
+import 'package:photo_gallery/auth/domain/dtos/SignupDTO.dart';
+import 'package:photo_gallery/auth/services/AuthService.dart';
+import 'package:photo_gallery/globals.dart';
 
 class AuthServiceAPI implements AuthService {
-  final _dio = Dio();
+  final Dio _dio;
 
-  AuthServiceAPI() {
-    _dio.options.baseUrl = AuthConstants.authService;
+  AuthServiceAPI.withDio(this._dio);
+
+  factory AuthServiceAPI() {
+    final Dio dio = Dio(BaseOptions(baseUrl: AuthConstants.authService));
+    return AuthServiceAPI.withDio(dio);
   }
 
   @override
@@ -29,7 +34,10 @@ class AuthServiceAPI implements AuthService {
       appUser.userid = appUserData['id'];
       appUser.username = appUserData['username'];
       appUser.email = appUserData['email'];
-      final Map<String, dynamic> result = {'message': message, 'appUser': appUser};
+      final Map<String, dynamic> result = {
+        'message': message,
+        'appUser': appUser
+      };
       return result;
     } catch (e) {
       print(e);
@@ -41,13 +49,13 @@ class AuthServiceAPI implements AuthService {
   Future<Map<String, dynamic>> signIn(String email, String password) async {
     Map<String, dynamic> loginDTOJson = LoginDTO(email, password).toJson();
     try {
-      final Response res =
-          await _dio.post('/login', data: loginDTOJson);
+      final Response res = await _dio.post('/login', data: loginDTOJson);
       //print res data
       print(res.data);
       AppUser appUser = AppUser();
       appUser.token = res.data['Token'];
       appUser.userid = int.parse(res.data['UserId'] ?? 0);
+      GetIt.I.get<AppState>().setAppUser(appUser);
       final Map<String, dynamic> result = {'appUser': appUser};
       print(appUser.token);
       return result;
@@ -58,9 +66,8 @@ class AuthServiceAPI implements AuthService {
   }
 
   @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<void> signOut() async {
+    GetIt.I.get<AppState>().setAppUser(null);
   }
 
   String _getRandomString(int len) {
