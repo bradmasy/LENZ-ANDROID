@@ -17,6 +17,7 @@ import 'package:photo_gallery/pages/dashboard.dart';
 import 'DataModel/GlobalDataModel.dart';
 import 'auth/AuthRoutes.dart';
 import 'homepage.dart';
+import 'package:photo_gallery/userprofile.dart';
 
 enum Routes {
   home(path: '/'),
@@ -32,7 +33,9 @@ enum Routes {
 
   addAlbum(path: '/add_album'),
 
-  addAlbumPhoto(path: '/add_album_photo');
+  addAlbumPhoto(path: '/add_album_photo'),
+
+  userprofile(path: '/userprofile');
 
   final String path;
 
@@ -72,6 +75,8 @@ final GoRouter router = GoRouter(
       Album album = state.extra as Album;
       return AddAlbumPhoto(album: album);
     }),
+    GoRoute(
+        path: Routes.userprofile.path, builder: (context, state) => const MyUserProfile()),
   ],
 );
 

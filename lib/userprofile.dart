@@ -91,13 +91,13 @@ class _MyUserProfileState extends State<MyUserProfile> {
         ),
         Column(
             children: [
-              Text("Thanksgiving"),
-              Text("Holiday"),
-              Text("T_Holiday"),
-              Text("t@holiday.com"),
-              Text("**********"),
+              Text(""),
+              Text(""),
+              Text(""),
+              Text(""),
+              Text(""),
             ]
-        )
-      ]
+        ),
+      ],
   );
 }

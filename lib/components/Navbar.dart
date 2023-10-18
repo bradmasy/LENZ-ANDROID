@@ -31,6 +31,9 @@ class _MyNavBarState extends State<NavBar> {
       case 3:
         route = '/albums';
         break;
+      case 4:
+        route = '/userprofile';
+        break;
       default:
         route = '/home'; // Default route if index is not matched
         break;
@@ -62,7 +65,11 @@ class _MyNavBarState extends State<NavBar> {
               NavigationDestination(
                   icon: Icon(Icons.photo_album_outlined),
                   selectedIcon: Icon(Icons.photo_album),
-                  label: "Albums")
+                  label: "Albums"),
+              NavigationDestination(
+                  icon: Icon(Icons.photo_album_outlined),
+                  selectedIcon: Icon(Icons.person),
+                  label: "Profile")
             ]));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:photo_gallery/pages/Albums.dart';
+import 'package:photo_gallery/userprofile.dart';
 
 import '../components/navbar.dart';
 import '../routes.dart';
@@ -42,7 +43,11 @@ class _DashboardState extends State<Dashboard> {
             NavigationDestination(
                 icon: Icon(Icons.photo_album_outlined),
                 selectedIcon: Icon(Icons.photo),
-                label: "Photos")
+                label: "Photos"),
+            NavigationDestination(
+                icon: Icon(Icons.person_outlined),
+                selectedIcon: Icon(Icons.person),
+                label: "Profile"),
           ]),
       body: IndexedStack(
         index: index,
@@ -52,6 +57,7 @@ class _DashboardState extends State<Dashboard> {
           Container(),
           Albums(),
           AllPhotos(),
+          MyUserProfile(),
         ],
       ),
     );
