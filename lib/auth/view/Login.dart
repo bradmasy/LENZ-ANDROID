@@ -107,7 +107,7 @@ class _LoginState extends State<Login> {
                     style: TextStyle(),
                   )),
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
           ],
@@ -115,9 +115,9 @@ class _LoginState extends State<Login> {
   }
 
   void _signup() async {
-    AppUser _appUser = await context.push(AuthRoutes.signup.path) as AppUser;
-    loginUser = _appUser;
-    _emailController.text = _appUser.email!;
+    AppUser appUser = await context.push(AuthRoutes.signup.path) as AppUser;
+    loginUser = appUser;
+    _emailController.text = appUser.email!;
   }
 
   Future<void> _login() async {
@@ -125,7 +125,8 @@ class _LoginState extends State<Login> {
     String password = _passwordController.text;
 
     try {
-      Map<String, dynamic> data = await GetIt.I.get<AuthService>().signIn(email, password);
+      Map<String, dynamic> data =
+          await GetIt.I.get<AuthService>().signIn(email, password);
       AppUser appUser = data['appUser'];
       loginUser = appUser;
       print(appUser.token);
