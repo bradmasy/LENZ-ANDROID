@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:photo_gallery/pages/Albums.dart';
 
-import '../components/navbar.dart';
-import '../routes.dart';
 import 'AllPhotos.dart';
 
 class Dashboard extends StatefulWidget {
@@ -15,6 +12,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   int index = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,8 +48,8 @@ class _DashboardState extends State<Dashboard> {
           Container(),
           Container(),
           Container(),
-          Albums(),
-          AllPhotos(),
+          const Albums(),
+          const AllPhotos(),
         ],
       ),
     );
