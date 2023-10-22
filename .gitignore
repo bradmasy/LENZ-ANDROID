@@ -45,3 +45,5 @@ app.*.map.json
 macos/Flutter/GeneratedPluginRegistrant.swift
 linux/flutter
 windows/flutter
+
+coverage/

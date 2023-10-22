@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:photo_gallery/auth/domain/AppUser.dart';
-import 'package:provider/provider.dart';
 
 import '../../DataModel/GlobalDataModel.dart';
 import '../../routes.dart';
@@ -39,10 +38,10 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.transparent, title: const Text('Login')),
-        body: Center(
-            child: Column(
+      appBar: AppBar(
+          backgroundColor: Colors.transparent, title: const Text('Login')),
+      body: Center(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -78,7 +77,10 @@ class _LoginState extends State<Login> {
                 obscureText: true,
               ),
             ),
-            Expanded(child: Container()),
+            Expanded(
+              flex: 2,
+              child: Container(),
+            ),
             SizedBox(
               width: 120,
               child: OutlinedButton(
@@ -108,11 +110,14 @@ class _LoginState extends State<Login> {
                     style: TextStyle(),
                   )),
             ),
-            const SizedBox(
-              height: 100,
+            Expanded(
+              flex: 1,
+              child: Container(),
             ),
           ],
-        )));
+        ),
+      ),
+    );
   }
 
   void _signup() async {
