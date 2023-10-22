@@ -50,16 +50,18 @@ void main() {
       when(mockDio.post(path, data: anything))
           .thenAnswer((_) async => mockResponse);
       when(mockResponse.statusCode).thenReturn(HttpStatus.created);
-      when(mockResponse.data).thenReturn({
-        "message": "User created successfully",
-        "user": {
-          "id": 0,
-          "email": testEmail,
-          "username": "testUsername",
-          "firstName": "testFirstName",
-          "lastName": "testLastName"
-        }
-      });
+      when(mockResponse.data).thenReturn(
+        {
+          "message": "User created successfully",
+          "user": {
+            "id": 0,
+            "email": testEmail,
+            "username": "testUsername",
+            "firstName": "testFirstName",
+            "lastName": "testLastName"
+          },
+        },
+      );
 
       Map<String, dynamic> result =
           await authServiceAPI.signUp(testEmail, testPw);
@@ -77,11 +79,13 @@ void main() {
       when(mockDio.post(path, data: anything))
           .thenAnswer((_) async => mockResponse);
       when(mockResponse.statusCode).thenReturn(HttpStatus.badRequest);
-      when(mockResponse.data).thenReturn({
-        "error": "Error creating user.",
-        "message":
-            "duplicate key value violates unique constraint \"user_user_email_key\"\nDETAIL:  Key (email)=(test321@test.ca) already exists.\n"
-      });
+      when(mockResponse.data).thenReturn(
+        {
+          "error": "Error creating user.",
+          "message":
+              "duplicate key value violates unique constraint \"user_user_email_key\"\nDETAIL:  Key (email)=(test321@test.ca) already exists.\n"
+        },
+      );
 
       Map<String, dynamic> result =
           await authServiceAPI.signUp(testEmail, testPw);

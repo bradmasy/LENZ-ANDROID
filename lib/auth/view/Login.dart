@@ -38,10 +38,10 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.transparent, title: const Text('Login')),
-        body: Center(
-            child: Column(
+      appBar: AppBar(
+          backgroundColor: Colors.transparent, title: const Text('Login')),
+      body: Center(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -77,7 +77,10 @@ class _LoginState extends State<Login> {
                 obscureText: true,
               ),
             ),
-            Expanded(child: Container()),
+            Expanded(
+              flex: 2,
+              child: Container(),
+            ),
             SizedBox(
               width: 120,
               child: OutlinedButton(
@@ -107,17 +110,20 @@ class _LoginState extends State<Login> {
                     style: TextStyle(),
                   )),
             ),
-            SizedBox(
-              height: 100,
+            Expanded(
+              flex: 1,
+              child: Container(),
             ),
           ],
-        )));
+        ),
+      ),
+    );
   }
 
   void _signup() async {
-    AppUser _appUser = await context.push(AuthRoutes.signup.path) as AppUser;
-    loginUser = _appUser;
-    _emailController.text = _appUser.email!;
+    AppUser appUser = await context.push(AuthRoutes.signup.path) as AppUser;
+    loginUser = appUser;
+    _emailController.text = appUser.email!;
   }
 
   Future<void> _login() async {
@@ -125,7 +131,8 @@ class _LoginState extends State<Login> {
     String password = _passwordController.text;
 
     try {
-      Map<String, dynamic> data = await GetIt.I.get<AuthService>().signIn(email, password);
+      Map<String, dynamic> data =
+          await GetIt.I.get<AuthService>().signIn(email, password);
       AppUser appUser = data['appUser'];
       loginUser = appUser;
       print(appUser.token);
