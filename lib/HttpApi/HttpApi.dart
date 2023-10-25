@@ -37,7 +37,7 @@ class HttpApi implements HttpApiService {
   @override
   Future<Map<String, dynamic>> getAllPhotos() async {
     try {
-      final Response res = await _dio.get('/photos');
+      final Response res = await _dio.get('/photo');
       final dynamic data = res.data;
       return data;
     } catch (e) {
@@ -128,7 +128,7 @@ class HttpApi implements HttpApiService {
   @override
   Future<Map<String, dynamic>> getAllPhotoAlbums() async {
     try {
-      final Response res = await _dio.get('/photo-albums');
+      final Response res = await _dio.get('/photo-album');
       final dynamic data = res.data;
       return data;
     } catch (e) {
