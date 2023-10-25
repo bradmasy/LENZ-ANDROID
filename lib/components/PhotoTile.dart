@@ -120,25 +120,173 @@ class ImageDialog extends StatelessWidget {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            color: Colors.transparent,
-            child: photo.photo.isNotEmpty? InteractiveViewer(
-              panEnabled: true,
-              boundaryMargin: const EdgeInsets.all(100),
-              minScale: 0.5,
-              maxScale: 3,
-              child: Image.memory(
-                base64Decode(photo.photo),
-                fit: BoxFit.contain,
+          child: Stack(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Colors.transparent,
+                child: photo.photo.isNotEmpty? InteractiveViewer(
+                  panEnabled: true,
+                  boundaryMargin: const EdgeInsets.all(100),
+                  minScale: 0.5,
+                  maxScale: 3,
+                  child: Image.memory(
+                    base64Decode(photo.photo),
+                    fit: BoxFit.contain,
+                  ),
+                ) : Image(image: NetworkImage(
+                    'https://source.unsplash.com/random/500x500?sig=1${Random().nextInt(100)}'
+                ), ),
               ),
-            ) : Image(image: NetworkImage(
-                'https://source.unsplash.com/random/500x500?sig=1${Random().nextInt(100)}'
-            ), ),
+              Positioned(
+                bottom: 100 ,
+                left: 20,
+                right: 20,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(5),
+                        child: Text("Title: ${photo.title}",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(2.0, 2.0),
+                                  blurRadius: 25.0,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ],
+                              color: Colors.white),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(5),
+                        child: Text("Description: ${photo.description}",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(2.0, 2.0),
+                                  blurRadius: 25.0,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ],
+                              color: Colors.white),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(5),
+                        child: Text("Created at: ${DateTime.parse(photo.createdAt).toLocal().toString().substring(0, 19)}",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(2.0, 2.0),
+                                  blurRadius: 25.0,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ],
+                              color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 40 ,
+                left: 20,
+                right: 20,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0.0),
+                      ),
+                      backgroundColor: Colors.white,
+                      side: const BorderSide(color: Color(0xff084470), width: 4),
+                    ),
+                    onPressed: () async {
+                      showDialog(context: context, builder:
+                          (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Update Photo Information"),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextField(
+                                controller: TextEditingController(text: photo.title),
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Title',
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+                              TextField(
+                                controller: TextEditingController(text: photo.description),
+                                decoration: const InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Description',
+                                ),
+                              ),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                String updatedTitle = TextEditingController().text;
+                                String updatedDescription = TextEditingController().text;
+                                updatePhotoInformation(updatedTitle, updatedDescription).then((value)  {
+                                  Navigator.pop(context);
+                                });
+                              },
+                              child: const Text("Update"),
+                            ),
+                          ],
+                        );
+                      }
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(5),
+                      child: const Text("Update photo information",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff084470)),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> updatePhotoInformation(String updatedTitle, String updatedDescription) async {
+    // await httpApi.updatePhotoInformation(photoId: photo.id, title: updatedTitle, description: updatedDescription);
   }
 }
