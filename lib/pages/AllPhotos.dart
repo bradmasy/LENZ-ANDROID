@@ -20,7 +20,7 @@ class _AllPhotosState extends State<AllPhotos> {
   int crossAxisCount = 2;
 
   bool deleteMode = false;
-
+  bool loading = false;
   List<Photo> deletePhotos = [];
   @override
   void initState() {
@@ -91,7 +91,11 @@ class _AllPhotosState extends State<AllPhotos> {
           child:
           Stack(
             children: [
-              GridView.builder(
+              loading ? const Center(
+                child:  CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ) : GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: crossAxisCount,
                   mainAxisSpacing: 0,
@@ -104,7 +108,7 @@ class _AllPhotosState extends State<AllPhotos> {
                     Stack(
                       alignment: Alignment.center,
                       children: [
-                        PhotoTile(photo: photos[index], onTapAllowed: true,),
+                        PhotoTile(photo: photos[index], onTapAllowed: true, refreshNotification: () { getAllPhotos(); },),
                         deleteMode ? Positioned(
                           left: 0,
                           top: 0,
@@ -159,8 +163,8 @@ class _AllPhotosState extends State<AllPhotos> {
                                   }, child: const Text('Cancel')),
                               TextButton(
                                   onPressed: () {
-                                    deletePhotosFromAlbum().then((value){
-                                      showToast('Photos deleted successfully');
+                                    deleteSelectedPhotos().then((value){
+                                      value ? showToast('Photos deleted successfully') : showToast('Error deleting photos');
                                       deleteMode = false;
                                       setState(() {
                                       });
@@ -203,13 +207,23 @@ class _AllPhotosState extends State<AllPhotos> {
     });
   }
 
-  Future<void> deletePhotosFromAlbum() async {
-    for (var item in deletePhotos) {
-      // await httpApi.deletePhotoFromAlbum(albumId: widget.album.id, photoId: item.id);
+  Future<bool> deleteSelectedPhotos() async {
+    try {
+      loading = true;
+      setState(() {
+      });
+      for (var item in deletePhotos) {
+        await httpApi.deletePhoto(item.id);
+      }
+      deletePhotos.clear();
+      await getAllPhotos();
+      loading = false;
+      setState(() {
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
     }
-    deletePhotos.clear();
-    setState(() {
-    });
-    await getAllPhotos();
   }
 }

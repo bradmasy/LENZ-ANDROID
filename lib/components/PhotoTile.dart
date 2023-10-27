@@ -3,13 +3,16 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 
 import '../DataModel/GlobalDataModel.dart';
 
 class PhotoTile extends StatefulWidget {
   Photo photo;
   bool onTapAllowed;
-  PhotoTile({Key? key, required this.photo, required this.onTapAllowed}) : super(key: key);
+  final VoidCallback refreshNotification;
+
+  PhotoTile({Key? key, required this.photo, required this.onTapAllowed, required this.refreshNotification}) : super(key: key);
 
   @override
   _PhotoTileState createState() => _PhotoTileState();
@@ -26,23 +29,23 @@ class _PhotoTileState extends State<PhotoTile> {
           widget.onTapAllowed ?
           GestureDetector(
               onTap: () async {
-                  await showDialog(
+                showDialog(
                   context: context,
                       barrierColor: Colors.transparent,
                       useSafeArea: false,
                   builder: (_) => ImageDialog(photo: widget.photo,)
-                  );
+                ).then((value) => widget.refreshNotification()  );
               },
             child: buildPhoto(),
           ) :
           GestureDetector(
             onLongPress: () async {
-              await showDialog(
+               showDialog(
                   context: context,
                   barrierColor: Colors.transparent,
                   useSafeArea: false,
                   builder: (_) => ImageDialog(photo: widget.photo,)
-              );
+              ).then((value) => widget.refreshNotification()  );
             },
             child: buildPhoto(),
           ),
@@ -103,9 +106,25 @@ class _PhotoTileState extends State<PhotoTile> {
   }
 }
 
-class ImageDialog extends StatelessWidget {
+class ImageDialog extends StatefulWidget {
   Photo photo;
   ImageDialog ({Key? key, required this.photo}) : super(key: key);
+
+  @override
+  State<ImageDialog> createState() => _ImageDialogState();
+}
+
+class _ImageDialogState extends State<ImageDialog> {
+
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    titleController.text = widget.photo.title;
+    descriptionController.text = widget.photo.description;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,13 +145,13 @@ class ImageDialog extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 color: Colors.transparent,
-                child: photo.photo.isNotEmpty? InteractiveViewer(
+                child: widget.photo.photo.isNotEmpty? InteractiveViewer(
                   panEnabled: true,
                   boundaryMargin: const EdgeInsets.all(100),
                   minScale: 0.5,
                   maxScale: 3,
                   child: Image.memory(
-                    base64Decode(photo.photo),
+                    base64Decode(widget.photo.photo),
                     fit: BoxFit.contain,
                   ),
                 ) : Image(image: NetworkImage(
@@ -149,7 +168,7 @@ class ImageDialog extends StatelessWidget {
                     children: [
                       Container(
                         margin: const EdgeInsets.all(5),
-                        child: Text("Title: ${photo.title}",
+                        child: Text("Title: ${widget.photo.title}",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 18,
@@ -167,7 +186,7 @@ class ImageDialog extends StatelessWidget {
                       ),
                       Container(
                         margin: const EdgeInsets.all(5),
-                        child: Text("Description: ${photo.description}",
+                        child: Text("Description: ${widget.photo.description}",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 18,
@@ -185,7 +204,7 @@ class ImageDialog extends StatelessWidget {
                       ),
                       Container(
                         margin: const EdgeInsets.all(5),
-                        child: Text("Created at: ${DateTime.parse(photo.createdAt).toLocal().toString().substring(0, 19)}",
+                        child: Text("Created at: ${DateTime.parse(widget.photo.createdAt).toLocal().toString().substring(0, 19)}",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontSize: 18,
@@ -228,7 +247,8 @@ class ImageDialog extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               TextField(
-                                controller: TextEditingController(text: photo.title),
+                                controller: titleController,
+
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Title',
@@ -236,7 +256,7 @@ class ImageDialog extends StatelessWidget {
                               ),
                               const SizedBox(height: 10,),
                               TextField(
-                                controller: TextEditingController(text: photo.description),
+                                controller: descriptionController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),
                                   labelText: 'Description',
@@ -253,10 +273,9 @@ class ImageDialog extends StatelessWidget {
                             ),
                             TextButton(
                               onPressed: () async {
-                                String updatedTitle = TextEditingController().text;
-                                String updatedDescription = TextEditingController().text;
-                                updatePhotoInformation(updatedTitle, updatedDescription).then((value)  {
-                                  Navigator.pop(context);
+                                updatePhotoInformation().then((value)  {
+                                  value ? showToast('Photo information updated successfully') : showToast('Error updating photo information');
+                                  Navigator.pop(context, widget.photo);
                                 });
                               },
                               child: const Text("Update"),
@@ -286,7 +305,27 @@ class ImageDialog extends StatelessWidget {
     );
   }
 
-  Future<void> updatePhotoInformation(String updatedTitle, String updatedDescription) async {
-    // await httpApi.updatePhotoInformation(photoId: photo.id, title: updatedTitle, description: updatedDescription);
+  Future<bool> updatePhotoInformation() async {
+    String updatedTitle = titleController.text;
+    String updatedDescription = descriptionController.text;
+    try {
+      print(widget.photo.id.toString() + updatedTitle + updatedDescription);
+      dynamic result = await httpApi.updatePhoto(id: widget.photo.id, title: updatedTitle, description: updatedDescription);
+      print(result);
+      widget.photo = Photo(
+          id: widget.photo.id,
+          title: updatedTitle,
+          description: updatedDescription,
+          photo: widget.photo.photo,
+          createdAt: widget.photo.createdAt,
+          updatedAt: widget.photo.updatedAt
+      );
+      setState(() {
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 }

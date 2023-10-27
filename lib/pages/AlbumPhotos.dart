@@ -225,7 +225,7 @@ class _PhotosState extends State<Photos> {
                         childAspectRatio: MediaQuery.of(context).size.width / crossAxisCount / 200,
                       ),
                       // return a custom ItemCard
-                      itemBuilder: (context, index) =>PhotoTile(photo: albumPhotos[index].photo, onTapAllowed: true,),
+                      itemBuilder: (context, index) =>PhotoTile(photo: albumPhotos[index].photo, onTapAllowed: true, refreshNotification: () {  },),
                       itemCount: albumPhotos.length,
                     ),
                   ),

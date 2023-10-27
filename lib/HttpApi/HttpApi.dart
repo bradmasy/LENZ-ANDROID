@@ -158,7 +158,8 @@ class HttpApi implements HttpApiService {
   }
 
 
-  Future<dynamic> uploadPhotos({
+  @override
+  Future<Map<String, dynamic>> uploadPhotos({
     String title = '',
     String description = '',
     String photoPath =  '',
@@ -178,4 +179,63 @@ class HttpApi implements HttpApiService {
     print(response.data);
     return response.data;
   }
+
+  @override
+  Future<Map<String, dynamic>> deletePhoto(int id) async {
+    //{"message":"Photo Album Successfully Deleted","photo":{"id":null,"userId":40,"description":"123","title":"123","photo":null,"active":true,"createdAt":"2023-10-11T03:58:06.869010Z","updatedAt":"2023-10-11T03:58:06.869025Z"}}
+    try {
+      final Response res = await _dio.delete('/photo/$id');
+      final dynamic data = res.data;
+      final Map<String, dynamic> result = data;
+      return result;
+    } catch (e) {
+      print(e);
+      return {'message': 'Error'};
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> deletePhotoAlbum(int id) async {
+    try {
+      final Response res = await _dio.get('/photo-album/$id');
+      final dynamic data = res.data;
+      final List<dynamic> photoAlbumPhotos = data?? [];
+      final Map<String, dynamic> result = {'results': photoAlbumPhotos};
+      return result;
+    } catch (e) {
+      print(e);
+      return {'message': 'Error'};
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> updatePhoto({
+    int id = 0,
+    String title = '',
+    String description = '',
+  }) async {
+    try {
+      var formData = FormData.fromMap({
+        'title': title,
+        'description': description,
+      });
+      final Response res = await _dio.patch('/photo/$id',
+          data:  formData);
+      final dynamic data = res.data;
+      return data;
+    } catch (e) {
+      print(e);
+      return {'message': 'Error'};
+    }
+  }
+
+  @override
+  Future<Map<String, dynamic>> updatePhotoAlbum(int id) {
+    // TODO: implement updatePhotoAlbum
+    throw UnimplementedError();
+  }
+
+
+
+
 }
