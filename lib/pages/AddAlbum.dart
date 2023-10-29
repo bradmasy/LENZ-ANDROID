@@ -216,7 +216,7 @@ class AddAlbum extends StatelessWidget {
     print(title + description);
     var result = await httpApi.postCreatePhotoAlbum(title: title, description: description);
     print(result);
-    if (result['id'] != null) {
+    if (result['photoAlbum']['id'] != null) {
       showToast('Album Added', duration: const Duration(seconds: 2), onDismiss: () {
         Navigator.pop(context, true);
       });
