@@ -7,13 +7,17 @@ import '../DataModel/GlobalDataModel.dart';
 
 class AlbumTile1 extends StatelessWidget {
   Album album;
-  AlbumTile1({Key? key, required this.album}) : super(key: key);
+  final VoidCallback refreshNotification;
+  AlbumTile1({Key? key, required this.album, required this.refreshNotification}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.push('/photos', extra: album);
+      onTap: () async {
+        var result = await context.push('/photos', extra: album);
+        if (result != null && result == true) {
+          refreshNotification();
+        }
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 2.5, left: 5, right: 5, top: 2.5),
@@ -30,16 +34,6 @@ class AlbumTile1 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Container(
-            //   height: 120,
-            //   decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(10),),
-            //   child: const Icon(
-            //     Icons.photo_camera_back_outlined,
-            //     size: 120 ,
-            //     color: Color(0xffffffff),
-            //   ),
-            // ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
