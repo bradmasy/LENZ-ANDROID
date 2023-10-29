@@ -33,5 +33,9 @@ abstract class HttpApiService {
     String description = '',
   });
 
-  Future<Map<String, dynamic>> updatePhotoAlbum(int id);
+  Future<Map<String, dynamic>> updatePhotoAlbum({
+    String title = '',
+    String description = '',
+    int id =  0,
+  });
 }

@@ -20,11 +20,17 @@ class _PhotosState extends State<Photos> {
   bool isLoaded = false;
 
   bool showInfo = false;
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  bool needLoading = false;
 
   @override
   void initState() {
     super.initState();
     getAlbumPhotos();
+    titleController.text = widget.album.title;
+    descriptionController.text = widget.album.description;
   }
 
   @override
@@ -36,7 +42,11 @@ class _PhotosState extends State<Photos> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => Navigator.pop(context, needLoading),
+          ),
+          backgroundColor: Colors.transparent,
             title: Text('Album Photos'),
             actions: [
               IconButton(
@@ -151,7 +161,7 @@ class _PhotosState extends State<Photos> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     TextField(
-                                      controller: TextEditingController(text: widget.album.title),
+                                      controller: titleController,
                                       decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: 'Title',
@@ -159,7 +169,7 @@ class _PhotosState extends State<Photos> {
                                     ),
                                     const SizedBox(height: 10,),
                                     TextField(
-                                      controller: TextEditingController(text:  widget.album.description),
+                                      controller: descriptionController,
                                       decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         labelText: 'Description',
@@ -179,7 +189,7 @@ class _PhotosState extends State<Photos> {
                                       String updatedTitle = TextEditingController().text;
                                       String updatedDescription = TextEditingController().text;
                                       updateAlbumInformation(updatedTitle, updatedDescription).then((value)  {
-                                        Navigator.pop(context);
+                                        Navigator.pop(context, widget.album);
                                       });
                                     },
                                     child: const Text("Update"),
@@ -255,11 +265,26 @@ class _PhotosState extends State<Photos> {
     });
   }
 
-  Future<void> updateAlbumInformation(String updatedTitle, String updatedDescription) async {
-    // var response = await httpApi.patchPhotoAlbumByID(widget.album.id, title: updatedTitle, description: updatedDescription);
-    // if (response['id'] != null) {
-    //   showToast('Album Updated', duration: const Duration(seconds: 2), onDismiss: () {
-    //   });
-    // }
+  Future<bool> updateAlbumInformation(String updatedTitle, String updatedDescription) async {
+    String updatedTitle = titleController.text;
+    String updatedDescription = descriptionController.text;
+    try {
+      var result = await httpApi.updatePhotoAlbum(id: widget.album.id, title: updatedTitle, description: updatedDescription);
+      print(result);
+      widget.album = Album(
+          id: widget.album.id,
+          title: updatedTitle,
+          description: updatedDescription,
+          createdAt: widget.album.createdAt,
+          updatedAt: DateTime.now().toUtc().toString()
+      );
+      needLoading = true;
+      setState(() {
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
+    }
   }
 }

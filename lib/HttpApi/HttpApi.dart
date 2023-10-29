@@ -91,7 +91,7 @@ class HttpApi implements HttpApiService {
   @override
   Future<Map<String, dynamic>> postPhotoUpload() async {
     try {
-      final Response res = await _dio.post('/photo-upload');
+      final Response res = await _dio.post('/photo');
       final dynamic data = res.data;
       final List<dynamic> photoUpload = data['photoUpload'] ?? [];
       final Map<String, dynamic> result = {'photoUpload': photoUpload};
@@ -143,7 +143,7 @@ class HttpApi implements HttpApiService {
     String description = '',
 }) async {
     try {
-      final Response res = await _dio.post('/photo-album-create',
+      final Response res = await _dio.post('/photo-album',
           data: {
         'title': title,
         'description': description,
@@ -197,10 +197,9 @@ class HttpApi implements HttpApiService {
   @override
   Future<Map<String, dynamic>> deletePhotoAlbum(int id) async {
     try {
-      final Response res = await _dio.get('/photo-album/$id');
+      final Response res = await _dio.delete('/photo-album/$id');
       final dynamic data = res.data;
-      final List<dynamic> photoAlbumPhotos = data?? [];
-      final Map<String, dynamic> result = {'results': photoAlbumPhotos};
+      final Map<String, dynamic> result = data;
       return result;
     } catch (e) {
       print(e);
@@ -230,12 +229,25 @@ class HttpApi implements HttpApiService {
   }
 
   @override
-  Future<Map<String, dynamic>> updatePhotoAlbum(int id) {
-    // TODO: implement updatePhotoAlbum
-    throw UnimplementedError();
+  Future<Map<String, dynamic>> updatePhotoAlbum({
+    String title = '',
+    String description = '',
+    int id =  0,
+  }) async {
+    if(id == 0) return {'message': 'Error'};
+    try {
+      final Response res = await _dio.patch('/photo-album/$id',
+          data: {
+            'title': title,
+            'description': description,
+          });
+      final dynamic data = res.data;
+      return data;
+    } catch (e) {
+      print(e);
+      return {'message': 'Error'};
+    }
   }
-
-
 
 
 }
