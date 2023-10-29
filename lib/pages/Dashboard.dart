@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_gallery/pages/Albums.dart';
+import 'package:photo_gallery/pages/MapPage.dart';
 
 import 'AllPhotos.dart';
 
@@ -47,7 +48,7 @@ class _DashboardState extends State<Dashboard> {
         children: <Widget>[
           Container(),
           Container(),
-          Container(),
+          const MapPage(),
           const Albums(),
           const AllPhotos(),
         ],
