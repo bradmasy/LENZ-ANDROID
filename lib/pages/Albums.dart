@@ -17,6 +17,7 @@ class _AlbumsState extends State<Albums> {
   int crossAxisCount = 2;
   bool deleteMode = false;
   List<Album> deleteAlbums = [];
+  bool loading = false;
 
   @override
   void initState() {
@@ -75,7 +76,11 @@ class _AlbumsState extends State<Albums> {
           child:
           Stack(
             children: [
-              GridView.builder(
+              loading ? const Center(
+                child:  CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ) : GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: crossAxisCount,
                   mainAxisSpacing: 0,
@@ -89,7 +94,7 @@ class _AlbumsState extends State<Albums> {
                       fit: StackFit.expand,
                       alignment: Alignment.center,
                       children: [
-                        AlbumTile1(album: albums[index]),
+                        AlbumTile1(album: albums[index], refreshNotification: () { getAlbums(); },),
                         deleteMode ? Positioned(
                           left: 0,
                           top: 0,
@@ -194,12 +199,21 @@ class _AlbumsState extends State<Albums> {
     setState(() {});
   }
 
-  Future<void> deleteSelectedAlbums() async {
-    for (var item in deleteAlbums) {
-      // await httpApi.deletePhotoAlbum(albumId: item.id);
+  Future<bool> deleteSelectedAlbums() async {
+    try {
+      loading = true;
+      for (var item in deleteAlbums) {
+        await httpApi.deletePhotoAlbum(item.id);
+      }
+      deleteAlbums.clear();
+      await getAlbums();
+      loading = false;
+      setState(() {
+      });
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
     }
-    deleteAlbums.clear();
-    setState(() {
-    });
   }
 }
