@@ -40,7 +40,7 @@ class _DashboardState extends State<Dashboard> {
                 selectedIcon: Icon(Icons.photo_album),
                 label: "Albums"),
             NavigationDestination(
-                icon: Icon(Icons.photo_album_outlined),
+                icon: Icon(Icons.photo_outlined),
                 selectedIcon: Icon(Icons.photo),
                 label: "Photos")
           ]),
