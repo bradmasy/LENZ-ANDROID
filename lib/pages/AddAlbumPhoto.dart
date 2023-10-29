@@ -84,7 +84,7 @@ class _AddAlbumPhotoState extends State<AddAlbumPhoto> {
                           Opacity(
                             opacity: selectedPhotos.contains(photos[index].id) ? 0.5 : 1,
                             child:
-                            PhotoTile(photo: photos[index], onTapAllowed: false,),
+                            PhotoTile(photo: photos[index], onTapAllowed: false, refreshNotification: () {  },),
                           ),
                             Positioned(
                             top: 10,
