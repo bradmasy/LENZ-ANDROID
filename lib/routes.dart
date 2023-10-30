@@ -34,6 +34,7 @@ enum Routes {
 
   addAlbumPhoto(path: '/add_album_photo');
 
+
   final String path;
 
   const Routes({required this.path});

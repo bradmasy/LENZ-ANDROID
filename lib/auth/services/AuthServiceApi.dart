@@ -55,6 +55,7 @@ class AuthServiceAPI implements AuthService {
       AppUser appUser = AppUser();
       appUser.token = res.data['Token'];
       appUser.userid = int.parse(res.data['UserId'] ?? 0);
+      appUser.email = email;
       GetIt.I.get<AppState>().setAppUser(appUser);
       final Map<String, dynamic> result = {'appUser': appUser};
       print(appUser.token);

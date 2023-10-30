@@ -175,7 +175,7 @@ class HttpApi implements HttpApiService {
       'user_id': loginUser.userid,
       'active': true,
     });
-    var response = await _dio.post('/photo-upload', data: formData);
+    var response = await _dio.post('/photo', data: formData);
     print(response.data);
     return response.data;
   }
