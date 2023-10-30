@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -39,6 +41,28 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            actions: [
+              TextButton(
+                  child: const Text('*'),
+                  onPressed: () {
+                    //random choose a number from 1 and 2
+                    int random = (1 + Random().nextInt(2));
+                    if (random == 1) {
+                      _emailController.text = '1@1.ca';
+                      _passwordController.text = '1';
+                    } else {
+                      _emailController.text = '2@2.ca';
+                      _passwordController.text = '2';
+                    }
+                    showToast('Start auto logging in');
+                    Future.delayed(const Duration(seconds: 1), () {
+                      _login().then((value) {
+                        showToast('Auto logging in complete');
+                      });
+                    });
+                  },
+              )
+            ],
             backgroundColor: Colors.transparent, title: const Text('Login')),
         body: Center(
             child: Column(

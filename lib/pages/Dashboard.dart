@@ -5,6 +5,7 @@ import 'package:photo_gallery/pages/Albums.dart';
 import '../components/navbar.dart';
 import '../routes.dart';
 import 'AllPhotos.dart';
+import 'Home.dart';
 import 'Search.dart';
 
 class Dashboard extends StatefulWidget {
@@ -48,7 +49,7 @@ class _DashboardState extends State<Dashboard> {
       body: IndexedStack(
         index: index,
         children: <Widget>[
-          Container(),
+          Home(),
           Search(),
           Container(),
           Albums(),

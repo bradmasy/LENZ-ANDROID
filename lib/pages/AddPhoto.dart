@@ -167,7 +167,7 @@ class _AddPhotoState extends State<AddPhoto> {
         photoPath: photoFile.path
     );
     print(result);
-    if (result['id'] != null) {
+    if (result['photo'] != null) {
       showToast('Photo Added', duration: const Duration(seconds: 2), onDismiss: () {
         Navigator.pop(context, true);
       });
