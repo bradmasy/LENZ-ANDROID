@@ -5,6 +5,7 @@ import 'package:photo_gallery/pages/Albums.dart';
 import '../components/navbar.dart';
 import '../routes.dart';
 import 'AllPhotos.dart';
+import 'Search.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -48,7 +49,7 @@ class _DashboardState extends State<Dashboard> {
         index: index,
         children: <Widget>[
           Container(),
-          Container(),
+          Search(),
           Container(),
           Albums(),
           AllPhotos(),
