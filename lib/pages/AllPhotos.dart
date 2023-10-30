@@ -7,6 +7,7 @@ import 'package:photo_gallery/components/PhotoTile.dart';
 import '../DataModel/GlobalDataModel.dart';
 
 class AllPhotos extends StatefulWidget {
+
   const AllPhotos({Key? key}) : super(key: key);
 
   @override

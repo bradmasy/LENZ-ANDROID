@@ -249,5 +249,39 @@ class HttpApi implements HttpApiService {
     }
   }
 
-
+  @override
+  Future<Map<String, dynamic>> searchPhotos({
+    String title = '',
+    String description = '',
+    String fromDate = '',
+    String toDate = ''
+  }) async {
+    try {
+      var queryParameters = {
+        'title': title,
+        'description': description,
+        'from_date': fromDate,
+        'to_date': toDate,
+      };
+      if (fromDate == '') {
+        queryParameters.remove('from_date');
+      }
+      if (toDate == '') {
+        queryParameters.remove('to_date');
+      }
+      if (title == '') {
+        queryParameters.remove('title');
+      }
+      if (description == '') {
+        queryParameters.remove('description');
+      }
+      final Response res = await _dio.get('/photo',
+          queryParameters: queryParameters);
+      final dynamic data = res.data;
+      return data;
+    } catch (e) {
+      print(e);
+      return {'message': 'Error'};
+    }
+  }
 }
