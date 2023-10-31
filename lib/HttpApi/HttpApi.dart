@@ -277,6 +277,8 @@ class HttpApi implements HttpApiService {
       }
       final Response res = await _dio.get('/photo',
           queryParameters: queryParameters);
+      //print request url
+      print(res.requestOptions.uri);
       final dynamic data = res.data;
       return data;
     } catch (e) {

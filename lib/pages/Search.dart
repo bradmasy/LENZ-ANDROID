@@ -222,9 +222,9 @@ class _SearchState extends State<Search> {
   Future<void> _selectToDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
+        initialDate: DateTime.now().add(const Duration(days: 2)).subtract(const Duration(seconds: 1)),
         firstDate: selectedDate,
-        lastDate: DateTime.now());
+        lastDate: DateTime.now().add(const Duration(days: 2)).subtract(const Duration(seconds: 1)));
     if (picked != null && picked != selectedToDate && picked.isAfter(selectedDate)) {
       setState(() {
         clearFilter = false;
@@ -238,7 +238,7 @@ class _SearchState extends State<Search> {
       isLoading = true;
     });
     String selectedDateStr = selectedDate.toIso8601String();
-    String selectedToDateStr = selectedToDate.toIso8601String();
+    String selectedToDateStr = selectedToDate.add(const Duration(days: 1)).subtract(const Duration(seconds: 1)).toIso8601String();
     clearFilter ? selectedDateStr = "" : selectedDateStr = selectedDateStr;
     clearFilter ? selectedToDateStr = "" : selectedToDateStr = selectedToDateStr;
     debugPrint(
