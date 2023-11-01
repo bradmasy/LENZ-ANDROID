@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:photo_gallery/globals.dart';
+import 'package:photo_gallery/injection.dart';
 import 'package:photo_gallery/routes.dart';
 import 'package:provider/provider.dart';
 
-import 'auth/GetItAuthSetup.dart';
-
 void main() {
-  GetIt.I.registerSingleton<AppState>(AppState());
-  getItAuthSetup();
+  configureDependencies();
   runApp(const MyApp());
 }
 

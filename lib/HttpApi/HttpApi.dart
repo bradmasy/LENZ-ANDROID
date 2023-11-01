@@ -63,7 +63,7 @@ class HttpApi implements HttpApiService {
   @override
   Future<Map<String, dynamic>> getAllPhotoAlbumPhotos() async {
     try {
-      final Response res = await _dio.get('/photo-album-photos');
+      final Response res = await _dio.get('/photo-album-photo');
       final dynamic data = res.data;
       final List<dynamic> photoAlbumPhotos = data['photoAlbumPhotos'] ?? [];
       final Map<String, dynamic> result = {'photoAlbumPhotos': photoAlbumPhotos};
