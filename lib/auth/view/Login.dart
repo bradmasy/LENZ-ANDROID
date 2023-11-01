@@ -135,7 +135,6 @@ class _LoginState extends State<Login> {
           await GetIt.I.get<AuthService>().signIn(email, password);
       AppUser appUser = data['appUser'];
       loginUser = appUser;
-      print(appUser.token);
       // showToast(appUser.token ?? 'Token Error');
 
       if (context.mounted && appUser.token != null) {
@@ -147,6 +146,5 @@ class _LoginState extends State<Login> {
       showToast('Error logging in');
       return;
     }
-    print('login');
   }
 }
