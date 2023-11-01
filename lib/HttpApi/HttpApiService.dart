@@ -38,4 +38,12 @@ abstract class HttpApiService {
     String description = '',
     int id =  0,
   });
+
+
+  Future<Map<String, dynamic>> searchPhotos({
+    String title = '',
+    String description = '',
+    String fromDate = '',
+    String toDate = ''
+  });
 }

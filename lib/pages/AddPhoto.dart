@@ -176,9 +176,8 @@ class _AddPhotoState extends State<AddPhoto> {
     Map<String, dynamic> result = await httpApi.uploadPhotos(
         title: title, description: description, photoPath: photoFile.path);
     print(result);
-    if (result['id'] != null) {
-      showToast('Photo Added', duration: const Duration(seconds: 2),
-          onDismiss: () {
+    if (result['photo'] != null) {
+      showToast('Photo Added', duration: const Duration(seconds: 2), onDismiss: () {
         Navigator.pop(context, true);
       });
     }

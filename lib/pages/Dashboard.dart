@@ -3,6 +3,8 @@ import 'package:photo_gallery/pages/Albums.dart';
 import 'package:photo_gallery/pages/MapPage.dart';
 
 import 'AllPhotos.dart';
+import 'Home.dart';
+import 'Search.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -45,12 +47,12 @@ class _DashboardState extends State<Dashboard> {
           ]),
       body: IndexedStack(
         index: index,
-        children: <Widget>[
-          Container(),
-          Container(),
-          const MapPage(),
-          const Albums(),
-          const AllPhotos(),
+        children: const <Widget>[
+          Home(),
+          Search(),
+          MapPage(),
+          Albums(),
+          AllPhotos(),
         ],
       ),
     );
