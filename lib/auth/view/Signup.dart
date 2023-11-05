@@ -4,13 +4,10 @@ import 'package:oktoast/oktoast.dart';
 import 'package:photo_gallery/auth/services/AuthService.dart';
 
 class Signup extends StatefulWidget {
-  const Signup({Key? key}) : super(key: key);
+  const Signup({super.key});
 
   @override
-  State<Signup> createState() {
-    // Avoid using private types in public APIs.
-    return _SignupState();
-  }
+  State<Signup> createState() => _SignupState();
 }
 
 class _SignupState extends State<Signup> {
@@ -19,6 +16,7 @@ class _SignupState extends State<Signup> {
   final TextEditingController _passwordConfirmController = TextEditingController();
   String _emailAlert = '';
   String _passwordAlert = '';
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +33,8 @@ class _SignupState extends State<Signup> {
     });
 
     _passwordConfirmController.addListener(() {
-      if (_passwordConfirmController.text != _passwordController.text && _passwordConfirmController.text.isNotEmpty) {
+      if (_passwordConfirmController.text != _passwordController.text &&
+          _passwordConfirmController.text.isNotEmpty) {
         _passwordAlert = 'Passwords do not match';
         setState(() {});
       } else {
@@ -72,7 +71,8 @@ class _SignupState extends State<Signup> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 10),
+              margin: const EdgeInsets.only(
+                  bottom: 10, left: 20, right: 20, top: 10),
               child: TextField(
                 controller: _emailController,
                 decoration: const InputDecoration(
@@ -83,7 +83,8 @@ class _SignupState extends State<Signup> {
             ),
             _emailAlert.isNotEmpty
                 ? Container(
-                    margin: const EdgeInsets.only(bottom: 0, left: 20, right: 20),
+                    margin:
+                        const EdgeInsets.only(bottom: 0, left: 20, right: 20),
                     child: Text(
                       _emailAlert,
                       style: const TextStyle(
@@ -93,7 +94,8 @@ class _SignupState extends State<Signup> {
                   )
                 : Container(),
             Container(
-              margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 10),
+              margin: const EdgeInsets.only(
+                  bottom: 10, left: 20, right: 20, top: 10),
               child: TextField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
@@ -104,7 +106,8 @@ class _SignupState extends State<Signup> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(bottom: 10, left: 20, right: 20, top: 10),
+              margin: const EdgeInsets.only(
+                  bottom: 10, left: 20, right: 20, top: 10),
               child: TextField(
                 controller: _passwordConfirmController,
                 decoration: const InputDecoration(
@@ -116,7 +119,8 @@ class _SignupState extends State<Signup> {
             ),
             _passwordAlert.isNotEmpty
                 ? Container(
-                    margin: const EdgeInsets.only(bottom: 0, left: 20, right: 20),
+                    margin:
+                        const EdgeInsets.only(bottom: 0, left: 20, right: 20),
                     child: Text(
                       _passwordAlert,
                       style: const TextStyle(
@@ -125,7 +129,7 @@ class _SignupState extends State<Signup> {
                     ),
                   )
                 : Container(),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             SizedBox(
@@ -148,7 +152,7 @@ class _SignupState extends State<Signup> {
                     ),
                   )),
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
           ],
@@ -160,14 +164,17 @@ class _SignupState extends State<Signup> {
       return;
     }
     try {
-      Map<String,dynamic> data = await GetIt.I.get<AuthService>().signUp(_emailController.text, _passwordController.text);
+      Map<String, dynamic> data = await GetIt.I
+          .get<AuthService>()
+          .signUp(_emailController.text, _passwordController.text);
       if (data['appUser'] != null) {
-        showToast('Signup successful', duration: const Duration(seconds: 2) ,
+        showToast('Signup successful', duration: const Duration(seconds: 2),
             onDismiss: () {
-              Navigator.pop(context, data['appUser']);
+          Navigator.pop(context, data['appUser']);
         });
       } else {
-        showToast(data['message'] + ': Signup failed', duration: const Duration(seconds: 2));
+        showToast(data['message'] + ': Signup failed',
+            duration: const Duration(seconds: 2));
       }
     } catch (e) {
       print(e);
