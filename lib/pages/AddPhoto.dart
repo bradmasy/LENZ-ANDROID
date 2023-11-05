@@ -5,16 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:photo_gallery/util/LocationUtil.dart';
 
 import '../DataModel/GlobalDataModel.dart';
+import '../injection.dart';
 
 class AddPhoto extends StatefulWidget {
   final CameraDescription? camera;
 
-  AddPhoto({Key? key, required this.camera}) : super(key: key);
+  const AddPhoto({super.key, required this.camera});
 
   @override
-  _AddPhotoState createState() => _AddPhotoState();
+  State<AddPhoto> createState() => _AddPhotoState();
 }
 
 class _AddPhotoState extends State<AddPhoto> {
@@ -23,6 +25,7 @@ class _AddPhotoState extends State<AddPhoto> {
   TextEditingController descriptionController = TextEditingController();
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
+  late LocationUtil locationUtil;
 
   @override
   void initState() {
@@ -34,6 +37,7 @@ class _AddPhotoState extends State<AddPhoto> {
     );
     _initializeControllerFuture = _controller.initialize();
     photoFile = XFile('');
+    locationUtil = getIt.get<LocationUtil>();
   }
 
   @override
@@ -60,7 +64,7 @@ class _AddPhotoState extends State<AddPhoto> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           return Container(
                             // width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.5,
+                            height: MediaQuery.of(context).size.height * 0.8,
                             child: CameraPreview(_controller),
                           );
                         } else {
@@ -86,7 +90,7 @@ class _AddPhotoState extends State<AddPhoto> {
                     margin: const EdgeInsets.only(top: 10, bottom: 10),
                     padding: const EdgeInsets.all(10),
                     width: MediaQuery.of(context).size.width * 0.4,
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         "Take Photo",
                         style: TextStyle(
@@ -98,7 +102,7 @@ class _AddPhotoState extends State<AddPhoto> {
                   )),
               TextField(
                 controller: titleController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Photo Title',
                 ),
@@ -108,7 +112,7 @@ class _AddPhotoState extends State<AddPhoto> {
               ),
               TextField(
                 controller: descriptionController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Photo Description',
                 ),
@@ -157,10 +161,6 @@ class _AddPhotoState extends State<AddPhoto> {
     }
     try {
       XFile file = await _controller.takePicture();
-
-      Position position = await Geolocator.getCurrentPosition();
-      print(position);
-
       return file;
     } on CameraException catch (e) {
       print(e);
@@ -173,11 +173,17 @@ class _AddPhotoState extends State<AddPhoto> {
     String description = descriptionController.text;
     print(title + description);
     print(photoFile.path);
+
+    Position position = await locationUtil.getCurrentPosition();
     Map<String, dynamic> result = await httpApi.uploadPhotos(
-        title: title, description: description, photoPath: photoFile.path);
+        title: title,
+        description: description,
+        photoPath: photoFile.path,
+        position: position);
     print(result);
     if (result['photo'] != null) {
-      showToast('Photo Added', duration: const Duration(seconds: 2), onDismiss: () {
+      showToast('Photo Added', duration: const Duration(seconds: 2),
+          onDismiss: () {
         Navigator.pop(context, true);
       });
     }

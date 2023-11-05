@@ -1,5 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
+import 'package:oktoast/oktoast.dart';
 
 bool locationServiceEnabled = false;
 LocationPermission locationServicePermission =
@@ -38,7 +39,7 @@ class LocationUtil {
     return true;
   }
 
-  Future<Position> getLocation() async {
+  Future<Position> getCurrentPosition() async {
     if (!locationServiceEnabled ||
         locationServicePermission == LocationPermission.unableToDetermine) {
       await getPermission();
@@ -46,7 +47,11 @@ class LocationUtil {
     return await Geolocator.getCurrentPosition();
   }
 
-  Stream<Position> getLocationStream() {
+  Future<Stream<Position>> getLocationStream() async {
+    if (!locationServiceEnabled ||
+        locationServicePermission == LocationPermission.unableToDetermine) {
+      await getPermission();
+    }
     LocationSettings locationSetting = AndroidSettings(
       accuracy: LocationAccuracy.bestForNavigation,
       intervalDuration: const Duration(seconds: 2),

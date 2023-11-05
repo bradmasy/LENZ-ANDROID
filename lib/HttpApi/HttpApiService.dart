@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+
 abstract class HttpApiService {
   Future<Map<String, dynamic>> getAllPhotos();
 
@@ -22,7 +24,8 @@ abstract class HttpApiService {
     String title = '',
     String description = '',
     String photoPath =  '',
-      });
+    Position? position
+  });
 
   Future<Map<String, dynamic>> deletePhoto(int id);
 

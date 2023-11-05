@@ -1,5 +1,6 @@
 
 import 'package:dio/dio.dart';
+import 'package:geolocator/geolocator.dart';
 import 'dart:io' as io;
 import 'dart:convert';
 import '../DataModel/GlobalDataModel.dart';
@@ -157,12 +158,12 @@ class HttpApi implements HttpApiService {
     }
   }
 
-
   @override
   Future<Map<String, dynamic>> uploadPhotos({
     String title = '',
     String description = '',
     String photoPath =  '',
+    Position? position
   }) async {
     MultipartFile photo = await MultipartFile.fromFile(photoPath);
     final bytes = io.File(photoPath).readAsBytesSync();
@@ -174,6 +175,8 @@ class HttpApi implements HttpApiService {
       'description': description,
       'user_id': loginUser.userid,
       'active': true,
+      'lat': position?.latitude,
+      'long': position?.longitude
     });
     var response = await _dio.post('/photo', data: formData);
     print(response.data);
