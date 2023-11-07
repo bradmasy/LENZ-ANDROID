@@ -81,65 +81,68 @@ class _PhotosState extends State<Photos> {
                   showInfo ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.all(5),
-                            child: Text("Title: ${widget.album.title}",
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic,
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(2.0, 2.0),
-                                      blurRadius: 25.0,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                  ],
-                                  color: Colors.black),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.all(5),
+                              child: Text("Title: ${widget.album.title}",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(2.0, 2.0),
+                                        blurRadius: 25.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                    color: Colors.black),
+                              ),
                             ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(5),
-                            child: Text("Description: ${widget.album.description}",
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic,
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(2.0, 2.0),
-                                      blurRadius: 25.0,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                  ],
-                                  color: Colors.black),
+                            Container(
+                              margin: const EdgeInsets.all(5),
+                              child: Text("Description: ${widget.album.description}",
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(2.0, 2.0),
+                                        blurRadius: 25.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                    color: Colors.black),
+                              ),
                             ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(5),
-                            child: Text("Created at: ${DateTime.parse(widget.album.createdAt).toLocal().toString().substring(0, 19)}",
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic,
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(2.0, 2.0),
-                                      blurRadius: 25.0,
-                                      color: Color.fromARGB(255, 0, 0, 0),
-                                    ),
-                                  ],
-                                  color: Colors.black),
+                            Container(
+                              margin: const EdgeInsets.all(5),
+                              child: Text("Created at: ${DateTime.parse(widget.album.createdAt).toLocal().toString().substring(0, 19)}",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                    shadows: <Shadow>[
+                                      Shadow(
+                                        offset: Offset(2.0, 2.0),
+                                        blurRadius: 25.0,
+                                        color: Color.fromARGB(255, 0, 0, 0),
+                                      ),
+                                    ],
+                                    color: Colors.black),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
@@ -235,7 +238,7 @@ class _PhotosState extends State<Photos> {
                         childAspectRatio: MediaQuery.of(context).size.width / crossAxisCount / 200,
                       ),
                       // return a custom ItemCard
-                      itemBuilder: (context, index) =>PhotoTile(photo: albumPhotos[index].photo, onTapAllowed: true, refreshNotification: () {  },),
+                      itemBuilder: (context, index) =>PhotoTile(photo: albumPhotos[index].photo, onTapAllowed: true, refreshNotification: () { getAlbumPhotos(); },),
                       itemCount: albumPhotos.length,
                     ),
                   ),

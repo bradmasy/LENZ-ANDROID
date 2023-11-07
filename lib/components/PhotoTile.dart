@@ -310,7 +310,7 @@ class _ImageDialogState extends State<ImageDialog> {
     String updatedDescription = descriptionController.text;
     try {
       print(widget.photo.id.toString() + updatedTitle + updatedDescription);
-      dynamic result = await httpApi.updatePhoto(id: widget.photo.id, title: updatedTitle, description: updatedDescription);
+      dynamic result = await httpApi.updatePhoto(photo: widget.photo, title: updatedTitle, description: updatedDescription);
       print(result);
       widget.photo = Photo(
           id: widget.photo.id,

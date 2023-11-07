@@ -1,4 +1,7 @@
 
+import 'dart:io';
+import 'dart:math';
+
 import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:io' as io;
@@ -6,6 +9,8 @@ import 'dart:convert';
 import '../DataModel/GlobalDataModel.dart';
 import '../auth/domain/AuthConstants.dart';
 import 'HttpApiService.dart';
+import 'package:path_provider/path_provider.dart';
+
 
 class HttpApi implements HttpApiService {
   final _dio = Dio(
@@ -212,16 +217,26 @@ class HttpApi implements HttpApiService {
 
   @override
   Future<Map<String, dynamic>> updatePhoto({
-    int id = 0,
+    required Photo photo,
     String title = '',
     String description = '',
   }) async {
     try {
+      print("${loginUser.userid} ${photo.id}");
+      print(photo.photo);
+      final decodedBytes = base64Decode(photo.photo);
+      final directory = await getApplicationDocumentsDirectory();
+      final path = directory.path;
+      final fileImg = await File('$path/${Random().nextInt(10000)}.png').writeAsBytes(decodedBytes);
+      MultipartFile file = await MultipartFile.fromFile(fileImg.path);
       var formData = FormData.fromMap({
         'title': title,
         'description': description,
+        'photo': file,
+        'user_id': loginUser.userid,
+        'active': true,
       });
-      final Response res = await _dio.patch('/photo/$id',
+      final Response res = await _dio.patch('/photo/${photo.id}',
           data:  formData);
       final dynamic data = res.data;
       return data;

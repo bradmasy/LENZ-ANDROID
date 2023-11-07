@@ -49,6 +49,7 @@ dependencies:
   injectable: ^2.3.2
   url_launcher: ^6.2.1
   flutter_map_location_marker: ^8.0.0
+  path_provider: ^2.1.1
 
 dev_dependencies:
   flutter_test:

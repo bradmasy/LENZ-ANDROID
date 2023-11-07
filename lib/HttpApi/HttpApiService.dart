@@ -1,4 +1,7 @@
+
 import 'package:geolocator/geolocator.dart';
+import '../DataModel/GlobalDataModel.dart';
+
 
 abstract class HttpApiService {
   Future<Map<String, dynamic>> getAllPhotos();
@@ -32,6 +35,7 @@ abstract class HttpApiService {
   Future<Map<String, dynamic>> deletePhotoAlbum(int id);
 
   Future<Map<String, dynamic>> updatePhoto({
+    required Photo photo,
     String title = '',
     String description = '',
   });
