@@ -25,7 +25,7 @@ jobs:
       - name: Run Patrol UI Tests
         run: |
           flutter packages get
+          flutter pub add patrol  # Add the patrol package as a dependency
+          flutter pub get
           # flutter pub global activate patrol
           flutter pub global run patrol test ./integrations_test
-
-
