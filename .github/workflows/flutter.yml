@@ -23,7 +23,6 @@ jobs:
 #     - run: flutter test
 #     - run: flutter build apk
      - run: flutter packages get
-
      - name: Run Patrol UI Tests
        run: |
          flutter packages get
