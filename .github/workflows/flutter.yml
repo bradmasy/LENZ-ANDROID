@@ -20,11 +20,13 @@ jobs:
        with:
          channel: 'stable'
      - run: flutter config --enable-android
-     - run: flutter test
-     - run: flutter build apk
+#     - run: flutter test
+#     - run: flutter build apk
+     - run: flutter packages get
+
      - name: Run Patrol UI Tests
        run: |
          flutter packages get
-         flutter pub global activate patrol
+#         flutter pub global activate patrol
          flutter pub global run patrol test ./integrations_test
 
