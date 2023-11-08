@@ -8,15 +8,19 @@ import 'package:photo_gallery/routes.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  configureDependencies();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  initState() {
+    configureDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
+    initState();
     return ChangeNotifierProvider(
         create: (BuildContext context) => GetIt.I.get<AppState>(),
         lazy: false,
