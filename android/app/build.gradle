@@ -41,6 +41,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        testInstrumentationRunner "pl.leancode.patrol.PatrolJUnitRunner"
     }
 
     buildTypes {
@@ -50,6 +51,16 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    testOptions {
+        execution "ANDROIDX_TEST_ORCHESTRATOR"
+    }
+
+
+}
+
+dependencies {
+    androidTestUtil "androidx.test:orchestrator:1.4.2"
 }
 
 flutter {

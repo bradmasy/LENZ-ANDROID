@@ -37,6 +37,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(actions: [
         TextButton(
           child: const Text('*'),
@@ -78,6 +79,7 @@ class _LoginState extends State<Login> {
             Container(
               margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
               child: TextField(
+                key: const Key('email'),
                 controller: _emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -88,6 +90,7 @@ class _LoginState extends State<Login> {
             Container(
               margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
               child: TextField(
+                key: const Key('password'),
                 controller: _passwordController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -103,6 +106,7 @@ class _LoginState extends State<Login> {
             SizedBox(
               width: 120,
               child: OutlinedButton(
+                  key: const Key('login'),
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0.0),
