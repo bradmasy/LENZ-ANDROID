@@ -1,20 +1,21 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:photo_gallery/auth/domain/app_user.dart';
+import 'package:photo_gallery/auth/domain/AppUser.dart';
 
-import '../auth_routes.dart';
-import '../services/auth_service.dart';
+import '../../DataModel/GlobalDataModel.dart';
+import '../../routes.dart';
+import '../AuthRoutes.dart';
+import '../services/AuthService.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
-  State<Login> createState() {
-    // Avoid using private types in public APIs.
-    return _LoginState();
-  }
+  State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
@@ -36,10 +37,31 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.transparent, title: const Text('Login')),
-        body: Center(
-            child: Column(
+      resizeToAvoidBottomInset : false,
+      appBar: AppBar(actions: [
+        TextButton(
+          child: const Text('*'),
+          onPressed: () {
+            //random choose a number from 1 and 2
+            int random = (1 + Random().nextInt(2));
+            if (random == 1) {
+              _emailController.text = '1@1.ca';
+              _passwordController.text = '1';
+            } else {
+              _emailController.text = '2@2.ca';
+              _passwordController.text = '2';
+            }
+            showToast('Start auto logging in');
+            Future.delayed(const Duration(seconds: 1), () {
+              _login().then((value) {
+                showToast('Auto logging in complete');
+              });
+            });
+          },
+        )
+      ], backgroundColor: Colors.transparent, title: const Text('Login')),
+      body: Center(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -57,6 +79,7 @@ class _LoginState extends State<Login> {
             Container(
               margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
               child: TextField(
+                key: const Key('email'),
                 controller: _emailController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -67,6 +90,7 @@ class _LoginState extends State<Login> {
             Container(
               margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
               child: TextField(
+                key: const Key('password'),
                 controller: _passwordController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -75,10 +99,14 @@ class _LoginState extends State<Login> {
                 obscureText: true,
               ),
             ),
-            Expanded(child: Container()),
+            Expanded(
+              flex: 2,
+              child: Container(),
+            ),
             SizedBox(
               width: 120,
               child: OutlinedButton(
+                  key: const Key('login'),
                   style: OutlinedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0.0),
@@ -105,16 +133,20 @@ class _LoginState extends State<Login> {
                     style: TextStyle(),
                   )),
             ),
-            SizedBox(
-              height: 100,
+            Expanded(
+              flex: 1,
+              child: Container(),
             ),
           ],
-        )));
+        ),
+      ),
+    );
   }
 
   void _signup() async {
-    AppUser _appUser = await context.push(AuthRoutes.signup.path) as AppUser;
-    _emailController.text = _appUser.email!;
+    AppUser appUser = await context.push(AuthRoutes.signup.path) as AppUser;
+    loginUser = appUser;
+    _emailController.text = appUser.email!;
   }
 
   Future<void> _login() async {
@@ -122,18 +154,20 @@ class _LoginState extends State<Login> {
     String password = _passwordController.text;
 
     try {
-      Map<String, dynamic> data = await GetIt.I.get<AuthService>().signIn(email, password);
+      Map<String, dynamic> data =
+          await GetIt.I.get<AuthService>().signIn(email, password);
       AppUser appUser = data['appUser'];
-      // print(appUser.token);
+      loginUser = appUser;
       // showToast(appUser.token ?? 'Token Error');
 
       if (context.mounted && appUser.token != null) {
-        Navigator.pop(context, appUser);
+        // Navigator.pop(context, appUser);
+        httpApi.setToken(appUser.token!);
+        context.go(Routes.dash.path);
       }
     } catch (e) {
       showToast('Error logging in');
       return;
     }
-    print('login');
   }
 }

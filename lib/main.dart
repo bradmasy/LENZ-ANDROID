@@ -3,22 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:photo_gallery/globals.dart';
+import 'package:photo_gallery/injection.dart';
 import 'package:photo_gallery/routes.dart';
 import 'package:provider/provider.dart';
 
-import 'auth/get_it_setup.dart';
-
 void main() {
-  GetIt.I.registerSingleton<AppState>(AppState());
-  getItAuthSetup();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  initState() {
+    configureDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
+    initState();
     return ChangeNotifierProvider(
         create: (BuildContext context) => GetIt.I.get<AppState>(),
         lazy: false,
@@ -34,6 +36,10 @@ class MyApp extends StatelessWidget {
                 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/BCIT_logo.svg/1129px-BCIT_logo.svg.png',
                 height: 200,
                 fit: BoxFit.fitHeight,
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return const Text('BCIT');
+                },
               ),
               title: const Text(
                 'LENZ',
@@ -62,7 +68,7 @@ class MyApp extends StatelessWidget {
                 ),
                 routerConfig: router,
               ),
-              durationInSeconds: 3,
+              durationInSeconds: 1,
             ),
           ),
         ));

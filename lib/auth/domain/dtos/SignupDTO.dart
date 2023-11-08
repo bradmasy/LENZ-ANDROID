@@ -1,9 +1,9 @@
 class SignupDTO {
-  String username;
-  String email;
-  String password;
-  String firstName;
-  String lastName;
+  final String username;
+  final String email;
+  final String password;
+  final String firstName;
+  final String lastName;
 
   SignupDTO(
       this.username, this.email, this.password, this.firstName, this.lastName);

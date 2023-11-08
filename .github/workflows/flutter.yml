@@ -3,7 +3,7 @@ name: Flutter CI
 
 on:
   push:
-    branches: [ "main" ,"develop"]
+    branches: [ "main" ,"develop","integration-testing"]
   pull_request:
     branches: [ "main" ,"develop"]
 
@@ -12,9 +12,19 @@ jobs:
    runs-on: windows-latest
    steps:
      - uses: actions/checkout@v3
+     - uses: actions/setup-java@v3
+       with:
+        distribution: 'temurin'
+        java-version: '17'
      - uses: subosito/flutter-action@v2
        with:
-         channel: 'beta'
-     - run: flutter config --enable-windows-desktop
+         channel: 'stable'
+     - run: flutter config --enable-android
      - run: flutter test
-     - run: flutter build windows
+     - run: flutter build apk
+     - name: Run Patrol UI Tests
+       run: |
+         flutter packages get
+         flutter pub global activate patrol
+         flitter pub global run patrol test ./integrations_test
+

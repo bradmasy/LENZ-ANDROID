@@ -1,10 +1,11 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:photo_gallery/auth/domain/app_user.dart';
+import 'package:photo_gallery/auth/domain/AppUser.dart';
 import 'package:photo_gallery/routes.dart';
 import 'package:provider/provider.dart';
 
-import 'auth/auth_routes.dart';
+import 'auth/AuthRoutes.dart';
 import 'globals.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -15,6 +16,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late CameraDescription _cameraDescription;
+
+  @override
+  void initState() {
+    super.initState();
+    availableCameras().then((cameras) {
+      final camera = cameras
+          .where((camera) => camera.lensDirection == CameraLensDirection.back)
+          .toList()
+          .first;
+      setState(() {
+        _cameraDescription = camera;
+      });
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
