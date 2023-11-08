@@ -26,5 +26,5 @@ jobs:
        run: |
          flutter packages get
          flutter pub global activate patrol
-         flitter pub global run patrol test ./integrations_test
+         flutter pub global run patrol test ./integrations_test
 
