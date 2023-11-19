@@ -25,6 +25,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
             backgroundColor: Colors.transparent,
             title: const Text('Search Photos'),
@@ -64,6 +65,7 @@ class _SearchState extends State<Search> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TextField(
+                    key: const Key('title'),
                     controller: titleController,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -132,6 +134,7 @@ class _SearchState extends State<Search> {
                       SizedBox(
                         height: 50,
                         child: TextButton(
+                            key: const Key('clearFilter'),
                             onPressed: () {
                                titleController.text = "";
                                descriptionController.text = "";
@@ -153,6 +156,7 @@ class _SearchState extends State<Search> {
                         width: MediaQuery.of(context).size.width * 0.6,
                         height: 50,
                         child: TextButton(
+                            key: const Key('search'),
                             onPressed: () {
                               FocusManager.instance.primaryFocus?.unfocus();
                               searchPhotos();
@@ -257,7 +261,6 @@ class _SearchState extends State<Search> {
         toDate: selectedToDateStr
     );
     List<Photo> photos = [];
-    print(result);
     if (result["message"] == "Error") {
       showToast("Error searching photos");
       return;

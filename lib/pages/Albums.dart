@@ -53,6 +53,7 @@ class _AlbumsState extends State<Albums> {
                 },
                 icon: const Icon(Icons.table_rows_outlined)),
             IconButton(
+                key: const Key('add_album'),
                 onPressed: () async {
                   getAlbums();
                   final result = await context.push('/add_album');
@@ -191,7 +192,6 @@ class _AlbumsState extends State<Albums> {
 
   Future<void> getAlbums() async {
     var result = await httpApi.getAllPhotoAlbums();
-    print(result);
     albums.clear();
     for (var item in result['results']) {
       albums.add(Album.fromJson(item));
