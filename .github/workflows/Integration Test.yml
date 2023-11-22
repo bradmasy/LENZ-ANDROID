@@ -1,4 +1,4 @@
-name: Integration Test
+name: Unit Test
 on: [push, workflow_dispatch]
 jobs:
 # job responsible for running Flutter tests on Android devices
