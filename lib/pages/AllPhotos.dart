@@ -199,7 +199,6 @@ class _AllPhotosState extends State<AllPhotos> {
   Future<void> getAllPhotos() async {
     var result = await httpApi.getAllPhotos();
     List<Photo> photos = [];
-    print(result);
     for (var item in result['results']) {
       photos.add(Photo.fromJson(item));
     }

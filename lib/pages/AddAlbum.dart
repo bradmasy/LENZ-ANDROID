@@ -23,6 +23,7 @@ class AddAlbum extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               TextField(
+                key: const Key('title'),
                 controller: titleController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -31,6 +32,7 @@ class AddAlbum extends StatelessWidget {
               ),
               const SizedBox(height: 10,),
               TextField(
+                key: const Key('description'),
                 controller: descriptionController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -177,6 +179,7 @@ class AddAlbum extends StatelessWidget {
               ),
               Expanded(child: Container(),),
               GestureDetector(
+                key: const Key('addAlbum'),
                 onTap: (){
                   addAlbum(context);
                 },

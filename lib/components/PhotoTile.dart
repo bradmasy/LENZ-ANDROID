@@ -49,33 +49,33 @@ class _PhotoTileState extends State<PhotoTile> {
             },
             child: buildPhoto(),
           ),
-          SizedBox(
-            height: 25,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                "${widget.photo.title}",
-                    style: const TextStyle(
-                        height: 1,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xffffffff)),
-                ),
-                const SizedBox(width: 10,),
-                Text(
-                  "${widget.photo.description}",
-                  style: const TextStyle(
-                      height: 1,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      color: Color(0xffffffff)),
-                )
-              ],
-            ),
-          ),
+          // SizedBox(
+          //   height: 25,
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.start,
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Text(
+          //       "${widget.photo.title}",
+          //           style: const TextStyle(
+          //               height: 1,
+          //             fontSize: 12,
+          //             fontWeight: FontWeight.bold,
+          //             color: Color(0xffffffff)),
+          //       ),
+          //       const SizedBox(width: 10,),
+          //       Text(
+          //         "${widget.photo.description}",
+          //         style: const TextStyle(
+          //             height: 1,
+          //             fontSize: 12,
+          //             fontWeight: FontWeight.bold,
+          //             fontStyle: FontStyle.italic,
+          //             color: Color(0xffffffff)),
+          //       )
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );
@@ -90,14 +90,14 @@ class _PhotoTileState extends State<PhotoTile> {
                   blurRadius: 20,
                   offset: Offset(0, 10))
             ]),
-        height: 175,
+        height: 200,
         width: 200,
         child: widget.photo.photo.isNotEmpty? Image.memory(
           base64Decode(widget.photo.photo),
           fit: BoxFit.cover,
         ) : Image(
           width: 200,
-          height: 175,
+          height: 200,
           fit: BoxFit.fill,
           image: NetworkImage(
               'https://source.unsplash.com/random/200x200?sig=1${Random().nextInt(100)}'

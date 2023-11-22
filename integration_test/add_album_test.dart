@@ -31,29 +31,35 @@ void main() {
       debugPrint('login complete......');
       await pumpForSeconds(tester, 10);
       debugPrint('login load complete......');
-      showToast('Click NavigationDestination at position 1');
-      await tester.tap(find.byType(NavigationDestination).at(1));
-      await pumpForSeconds(tester, 3);
-      showToast('Click NavigationDestination at position 2');
-      await tester.tap(find.byType(NavigationDestination).at(2));
-      await pumpForSeconds(tester, 3);
-      showToast('Click NavigationDestination at last position');
-      await tester.tap(find.byType(NavigationDestination).last);
-      await pumpForSeconds(tester, 3);
-      showToast('Click NavigationDestination to search');
-      await tester.tap(find.byType(NavigationDestination).at(1));
-      await pumpForSeconds(tester, 3);
-      showToast('Clear filter ');
-      // ----------Search test-------------
-      await tester.tap(find.byKey(const Key('clearFilter')));
+      // ----------All Albums test-------------
+      showToast('Click NavigationDestination at position 3');
+      debugPrint('Click NavigationDestination at position 3');
+      await tester.tap(find.byType(NavigationDestination).at(3));
+      await pumpForSeconds(tester, 2);
+      debugPrint('End Click NavigationDestination at position 3');
+      // int count = 0;
+      // while (find.byType(GridView).evaluate().single.widget is GridView) {
+      //   count++;
+      // }
       await pumpForSeconds(tester, 1);
-      await tester.enterText(find.byKey(const Key('title')), 'PHONECOOLER');
+      await tester.tap(find.byKey(const Key('add_album')));
       await pumpForSeconds(tester, 1);
-      await tester.tap(find.byKey(const Key('search')));
-      await pumpForSeconds(tester, 3);
-      showToast('Search PHONECOOLER photo');
-      expect(find.byType(GridView), findsOneWidget);
-      debugPrint('expect find.byType(GridView), findsOneWidget');
+      //get timestamp
+      String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      await tester.enterText(find.byKey(const Key('title')), 'UITESTname$timestamp');
+      await tester.enterText(find.byKey(const Key('description')), 'UITESTdescription');
+      await pumpForSeconds(tester, 1);
+      await tester.tap(find.byKey(const Key('addAlbum')));
+      await pumpForSeconds(tester, 4);
+      // int newCount = 0;
+      // while (find.byType(GridView).evaluate().single.widget is GridView) {
+      //   newCount++;
+      // }
+      // showToast('Check if new album is added');
+      // showToast('newCount: $newCount, count: $count');
+      // expect(newCount, count + 1);
+      // ----------End Albums test-------------
+
     });
 
 

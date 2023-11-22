@@ -97,7 +97,7 @@ class _HomeState extends State<Home> {
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   children: [
-                    for (var photo in photos)
+                    for (var photo in photos.sublist(0, photos.length > 4 ? 4 : photos.length))
                       PhotoTile(photo: photo, onTapAllowed: true, refreshNotification: () { },),
                   ],
                 ),
@@ -110,9 +110,11 @@ class _HomeState extends State<Home> {
   Future<void> getAllPhotos() async {
     var result = await httpApi.getAllPhotos();
     List<Photo> photos = [];
-    print(result);
     for (var item in result['results']) {
       photos.add(Photo.fromJson(item));
+      if (photos.length == 5) {
+        break;
+      }
     }
     debugPrint('photos: $photos');
     photos.shuffle();
