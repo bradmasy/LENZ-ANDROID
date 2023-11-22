@@ -29,7 +29,7 @@ jobs:
           api-level: ${{ matrix.api-level }}
           arch: x86_64
           profile: Nexus 6
-          script: flutter test integration_test/app_test.dart --verbose
+          script: flutter test test/auth/view/Login_test.dart
       # - name: Run integration tests add photo test
       #   uses: reactivecircus/android-emulator-runner@v2
       #   with:
