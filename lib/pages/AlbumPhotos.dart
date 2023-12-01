@@ -50,6 +50,7 @@ class _PhotosState extends State<Photos> {
             title: Text('Album Photos'),
             actions: [
               IconButton(
+                 key: const Key('show_info'),
                   onPressed: () {
                     showInfo = !showInfo;
                     setState(() {
@@ -148,6 +149,7 @@ class _PhotosState extends State<Photos> {
                         width: MediaQuery.of(context).size.width * 0.4,
                         height: 50,
                         child: OutlinedButton(
+                          key: const Key('update_album_information'),
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(0.0),
@@ -172,6 +174,7 @@ class _PhotosState extends State<Photos> {
                                     ),
                                     const SizedBox(height: 10,),
                                     TextField(
+                                      key: const Key('description'),
                                       controller: descriptionController,
                                       decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
@@ -188,6 +191,7 @@ class _PhotosState extends State<Photos> {
                                     child: const Text("Cancel"),
                                   ),
                                   TextButton(
+                                    key: const Key('update_album_information_confirm'),
                                     onPressed: () async {
                                       String updatedTitle = TextEditingController().text;
                                       String updatedDescription = TextEditingController().text;

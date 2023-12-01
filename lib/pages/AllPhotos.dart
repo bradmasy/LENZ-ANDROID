@@ -55,6 +55,7 @@ class _AllPhotosState extends State<AllPhotos> {
           const Text('All Photos'),
           actions: [
             IconButton(
+                key: const Key('delete_photos'),
                 onPressed: () {
                   deleteMode = !deleteMode;
                   setState(() {
@@ -69,6 +70,7 @@ class _AllPhotosState extends State<AllPhotos> {
                 },
                 icon: const Icon(Icons.table_rows_outlined)),
             IconButton(
+                key: const Key('add_photo'),
                 onPressed: () async {
                   getAllPhotos();
                   var result = await context.push('/add_photo', extra: _cameraDescription);
@@ -107,6 +109,7 @@ class _AllPhotosState extends State<AllPhotos> {
                 // return a custom ItemCard
                 itemBuilder: (context, index) =>
                     Stack(
+                      key: Key(index.toString()),
                       alignment: Alignment.center,
                       children: [
                         PhotoTile(photo: photos[index], onTapAllowed: true, refreshNotification: () { getAllPhotos(); },),
@@ -145,6 +148,7 @@ class _AllPhotosState extends State<AllPhotos> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: OutlinedButton(
+                    key: const Key('delete_selected_photos'),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0.0),
@@ -159,10 +163,12 @@ class _AllPhotosState extends State<AllPhotos> {
                             content: Text('Are you sure you want to delete ${deletePhotos.length} selected photos?'),
                             actions: [
                               TextButton(
+
                                   onPressed: () {
                                     Navigator.pop(context);
                                   }, child: const Text('Cancel')),
                               TextButton(
+                                key: const Key('delete_selected_photos_confirm'),
                                   onPressed: () {
                                     deleteSelectedPhotos().then((value){
                                       value ? showToast('Photos deleted successfully') : showToast('Error deleting photos');

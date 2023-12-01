@@ -31,26 +31,24 @@ void main() {
       debugPrint('login complete......');
       await pumpForSeconds(tester, 10);
       debugPrint('login load complete......');
-      await tester.tap(find.byType(NavigationDestination).at(1));
+      await tester.tap(find.byType(NavigationDestination).at(4));
       await pumpForSeconds(tester, 3);
-      await tester.tap(find.byType(NavigationDestination).at(2));
+      await tester.tap(find.byKey(const Key('1')));
       await pumpForSeconds(tester, 3);
-      await tester.tap(find.byType(NavigationDestination).last);
+      await tester.tap(find.byKey(const Key('PhotoTilehoya')));
+      debugPrint('photo load complete......');
+      await tester.pumpAndSettle(const Duration(seconds: 3));
+      debugPrint('photo load complete......');
+      await tester.tap(find.byKey(const Key('updatePhotoInformation')));
+      debugPrint('updatePhotoInformation load complete......');
       await pumpForSeconds(tester, 3);
-      await tester.tap(find.byType(NavigationDestination).at(1));
-      await pumpForSeconds(tester, 3);
-      // ----------Search test-------------
-      await tester.tap(find.byKey(const Key('clearFilter')));
-      await pumpForSeconds(tester, 1);
-      await tester.enterText(find.byKey(const Key('title')), 'PHONECOOLER');
-      await pumpForSeconds(tester, 1);
-      await tester.tap(find.byKey(const Key('search')));
-      await pumpForSeconds(tester, 3);
-      expect(find.byType(GridView), findsOneWidget);
-      debugPrint('expect find.byType(GridView), findsOneWidget');
+      await tester.tap(find.byKey(const Key('description')));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      await tester.enterText(find.byKey(const Key('description')), 'UITESTname$timestamp' );
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      expect(find.text('UITESTname$timestamp'), findsOneWidget);
     });
-
-
   });
 }
 

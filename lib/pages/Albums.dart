@@ -39,6 +39,7 @@ class _AlbumsState extends State<Albums> {
           const Text('Albums'),
           actions: [
             IconButton(
+                key: const Key('delete_albums'),
                 onPressed: () {
                   deleteMode = !deleteMode;
                   setState(() {
@@ -92,6 +93,7 @@ class _AlbumsState extends State<Albums> {
                 // return a custom ItemCard
                 itemBuilder: (context, index) =>
                     Stack(
+                      key: Key(index.toString()),
                       fit: StackFit.expand,
                       alignment: Alignment.center,
                       children: [
@@ -138,6 +140,8 @@ class _AlbumsState extends State<Albums> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: OutlinedButton(
+                    key: const Key('delete_selected_albums'),
+
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0.0),
@@ -156,6 +160,7 @@ class _AlbumsState extends State<Albums> {
                                     Navigator.pop(context);
                                   }, child: const Text('Cancel')),
                               TextButton(
+                                  key: const Key('delete_selected_albums_confirm'),
                                   onPressed: () {
                                     deleteSelectedAlbums().then((value){
                                       showToast('Albums deleted successfully');

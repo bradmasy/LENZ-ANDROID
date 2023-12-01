@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:patrol/patrol.dart';
+import 'package:photo_gallery/components/PhotoTile.dart';
 import 'package:photo_gallery/main.dart';
 import 'package:photo_gallery/pages/Dashboard.dart';
 
@@ -31,26 +32,21 @@ void main() {
       debugPrint('login complete......');
       await pumpForSeconds(tester, 10);
       debugPrint('login load complete......');
-      await tester.tap(find.byType(NavigationDestination).at(1));
+      await tester.tap(find.byType(NavigationDestination).at(4));
       await pumpForSeconds(tester, 3);
-      await tester.tap(find.byType(NavigationDestination).at(2));
-      await pumpForSeconds(tester, 3);
-      await tester.tap(find.byType(NavigationDestination).last);
-      await pumpForSeconds(tester, 3);
-      await tester.tap(find.byType(NavigationDestination).at(1));
-      await pumpForSeconds(tester, 3);
-      // ----------Search test-------------
-      await tester.tap(find.byKey(const Key('clearFilter')));
-      await pumpForSeconds(tester, 1);
-      await tester.enterText(find.byKey(const Key('title')), 'PHONECOOLER');
-      await pumpForSeconds(tester, 1);
-      await tester.tap(find.byKey(const Key('search')));
-      await pumpForSeconds(tester, 3);
-      expect(find.byType(GridView), findsOneWidget);
-      debugPrint('expect find.byType(GridView), findsOneWidget');
+      await tester.tap(find.byKey(const Key('add_photo')));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      await tester.tap(find.byKey(const Key('take_photo')));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
+      String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+      await tester.enterText(find.byKey(const Key('title')), 'test$timestamp');
+      await pumpForSeconds(tester, 2);
+      await tester.enterText(find.byKey(const Key('description')), 'test$timestamp');
+      await pumpForSeconds(tester, 2);
+      await tester.tap(find.byKey(const Key('addPhoto')));
+      await pumpForSeconds(tester, 10);
+      expect(find.byType(PhotoTile), findsOneWidget);
     });
-
-
   });
 }
 

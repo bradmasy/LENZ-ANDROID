@@ -28,7 +28,8 @@ class _PhotoTileState extends State<PhotoTile> {
         children: [
           widget.onTapAllowed ?
           GestureDetector(
-              onTap: () async {
+            key: Key('PhotoTile${widget.photo.title}'),
+            onTap: () async {
                 showDialog(
                   context: context,
                       barrierColor: Colors.transparent,
@@ -231,6 +232,7 @@ class _ImageDialogState extends State<ImageDialog> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: OutlinedButton(
+                    key: const Key('updatePhotoInformation'),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0.0),
@@ -256,6 +258,7 @@ class _ImageDialogState extends State<ImageDialog> {
                               ),
                               const SizedBox(height: 10,),
                               TextField(
+                                key: const Key('description'),
                                 controller: descriptionController,
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(),

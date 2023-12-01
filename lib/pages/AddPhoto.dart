@@ -43,6 +43,7 @@ class _AddPhotoState extends State<AddPhoto> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Add Photo'),
       ),
@@ -73,6 +74,7 @@ class _AddPhotoState extends State<AddPhoto> {
                       },
                     ),
               GestureDetector(
+                  key: const Key('take_photo'),
                   onTap: () async {
                     final file = await takePicture();
                     photoFile = file as XFile;
@@ -101,6 +103,7 @@ class _AddPhotoState extends State<AddPhoto> {
                     ),
                   )),
               TextField(
+                key: const Key('title'),
                 controller: titleController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -111,6 +114,7 @@ class _AddPhotoState extends State<AddPhoto> {
                 height: 10,
               ),
               TextField(
+                key: const Key('description'),
                 controller: descriptionController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -121,6 +125,7 @@ class _AddPhotoState extends State<AddPhoto> {
                 child: Container(),
               ),
               GestureDetector(
+                key: const Key('addPhoto'),
                 onTap: () {
                   addPhoto(context);
                 },
