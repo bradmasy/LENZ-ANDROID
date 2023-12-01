@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:photo_gallery/pages/AllAlbums.dart';
-import 'package:photo_gallery/pages/MapPage.dart';
+import 'package:photo_gallery/View/AllAlbums.dart';
+import 'package:photo_gallery/View/MapPage.dart';
 
 import 'AllPhotos.dart';
 import 'Home.dart';

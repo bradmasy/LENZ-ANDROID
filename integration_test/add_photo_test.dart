@@ -6,7 +6,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:patrol/patrol.dart';
 import 'package:photo_gallery/components/PhotoTile.dart';
 import 'package:photo_gallery/main.dart';
-import 'package:photo_gallery/pages/Dashboard.dart';
+import 'package:photo_gallery/View/Dashboard.dart';
 
 // run this command to start the patrol test
 // DO NOT USE "flutter test" command

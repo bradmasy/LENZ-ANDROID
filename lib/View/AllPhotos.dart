@@ -1,28 +1,66 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:photo_gallery/components/PhotoTile.dart';
 
 import '../DataModel/GlobalDataModel.dart';
-import '../components/AlbumTile.dart';
+import '../Presenter/AllPhotoPresenter.dart';
 
-class Albums extends StatefulWidget {
-  const Albums({Key? key}) : super(key: key);
+class AllPhotos extends StatefulWidget {
+
+  const AllPhotos({Key? key}) : super(key: key);
 
   @override
-  _AlbumsState createState() => _AlbumsState();
+  _AllPhotosState createState() => _AllPhotosState();
 }
 
-class _AlbumsState extends State<Albums> {
-  List<Album> albums = [];
+class _AllPhotosState extends State<AllPhotos> implements AllPhotosView {
+
+  late CameraDescription _cameraDescription;
+  List<Photo> photos = [];
   int crossAxisCount = 2;
+
   bool deleteMode = false;
-  List<Album> deleteAlbums = [];
   bool loading = false;
+  List<Photo> deletePhotos = [];
+  late AllPhotosPresenter _presenter;
 
   @override
   void initState() {
     super.initState();
-    getAlbums();
+    _presenter = AllPhotosPresenterImpl(this);
+    _presenter.fetchPhotos();
+
+    getAllPhotos();
+    availableCameras().then((cameras) {
+      final camera = cameras
+          .where((camera) => camera.lensDirection == CameraLensDirection.back)
+          .toList()
+          .first;
+      setState(() {
+        _cameraDescription = camera;
+      });
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
+  @override
+  void onPhotosFetched(List<Photo> photos) {
+    setState(() {
+      this.photos = photos;
+    });
+  }
+
+  @override
+  void onPhotosDeleted(bool success) {
+    if (success) {
+      showToast('Photos deleted successfully');
+      _presenter.fetchPhotos();
+    } else {
+      showToast('Error deleting photos');
+    }
   }
 
   @override
@@ -35,11 +73,12 @@ class _AlbumsState extends State<Albums> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title:deleteMode ? const Text('Delete Albums Mode') :
-          const Text('Albums'),
+          title:
+          deleteMode ? const Text('Delete Photos Mode') :
+          const Text('All Photos'),
           actions: [
             IconButton(
-                key: const Key('delete_albums'),
+                key: const Key('delete_photos'),
                 onPressed: () {
                   deleteMode = !deleteMode;
                   setState(() {
@@ -48,18 +87,18 @@ class _AlbumsState extends State<Albums> {
                 icon: const Icon(Icons.delete_forever_outlined)),
             IconButton(
                 onPressed: () {
-                  crossAxisCount = crossAxisCount > 2 ? 1 : crossAxisCount + 1;
+                  crossAxisCount = crossAxisCount > 3 ? 2 : crossAxisCount + 1;
                   setState(() {
                   });
                 },
                 icon: const Icon(Icons.table_rows_outlined)),
             IconButton(
-                key: const Key('add_album'),
+                key: const Key('add_photo'),
                 onPressed: () async {
-                  getAlbums();
-                  final result = await context.push('/add_album');
+                  getAllPhotos();
+                  var result = await context.push('/add_photo', extra: _cameraDescription);
                   if (result != null) {
-                    getAlbums();
+                    getAllPhotos();
                   }
                 },
                 icon: const Icon(Icons.add))
@@ -74,7 +113,7 @@ class _AlbumsState extends State<Albums> {
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Color(0xffffffff), Color(0xffffffff)])),
+                  colors: [Color(0xff084470), Color(0xff0c7b93)])),
           child:
           Stack(
             children: [
@@ -88,16 +127,15 @@ class _AlbumsState extends State<Albums> {
                   mainAxisSpacing: 0,
                   crossAxisSpacing: 0,
                   // width / height: fixed for *all* items
-                  childAspectRatio: MediaQuery.of(context).size.width / crossAxisCount / 150,
+                  childAspectRatio: MediaQuery.of(context).size.width / crossAxisCount / 200,
                 ),
                 // return a custom ItemCard
                 itemBuilder: (context, index) =>
                     Stack(
                       key: Key(index.toString()),
-                      fit: StackFit.expand,
                       alignment: Alignment.center,
                       children: [
-                        AlbumTile1(album: albums[index], refreshNotification: () { getAlbums(); },),
+                        PhotoTile(photo: photos[index], onTapAllowed: true, refreshNotification: () { getAllPhotos(); },),
                         deleteMode ? Positioned(
                           left: 0,
                           top: 0,
@@ -105,32 +143,25 @@ class _AlbumsState extends State<Albums> {
                           bottom: 0,
                           child: GestureDetector(
                             onTap: () {
-                              if (deleteAlbums.contains(albums[index])) {
-                                deleteAlbums.remove(albums[index]);
+                              if (deletePhotos.contains(photos[index])) {
+                                deletePhotos.remove(photos[index]);
                               } else {
-                                deleteAlbums.add(albums[index]);
+                                deletePhotos.add(photos[index]);
                               }
                               setState(() {
                               });
                             },
                             child: Container(
-                              margin: const EdgeInsets.only(bottom: 2.5, left: 5, right: 5, top: 2.5),
-                              padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: const Color(0xff084470),
-                                  width: 2,
-                                ),
-                                color: deleteAlbums.contains(albums[index]) ? Colors.red.withOpacity(0.7) : Colors.transparent,
+                                  color: deletePhotos.contains(photos[index]) ? Colors.red.withOpacity(0.7) : Colors.transparent,
                               ),
-                              child: deleteAlbums.contains(albums[index]) ? const Icon(Icons.check_circle, color: Colors.white,) : Container(),
+                              child: deletePhotos.contains(photos[index]) ? const Icon(Icons.check_circle, color: Colors.white,) : Container(),
                             ),
                           ),
                         ) : Container(),
                       ],
                     ),
-                itemCount: albums.length,
+                itemCount: photos.length,
               ),
               deleteMode ? Positioned(
                 bottom: 10 ,
@@ -140,8 +171,7 @@ class _AlbumsState extends State<Albums> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: OutlinedButton(
-                    key: const Key('delete_selected_albums'),
-
+                    key: const Key('delete_selected_photos'),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(0.0),
@@ -152,20 +182,20 @@ class _AlbumsState extends State<Albums> {
                     onPressed: () async {
                       showDialog(context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text('Delete Albums'),
-                            content: Text('Are you sure you want to delete ${deleteAlbums.length} selected albums?'),
+                            title: const Text('Delete Photos'),
+                            content: Text('Are you sure you want to delete ${deletePhotos.length} selected photos?'),
                             actions: [
                               TextButton(
+
                                   onPressed: () {
                                     Navigator.pop(context);
                                   }, child: const Text('Cancel')),
                               TextButton(
-                                  key: const Key('delete_selected_albums_confirm'),
+                                key: const Key('delete_selected_photos_confirm'),
                                   onPressed: () {
-                                    deleteSelectedAlbums().then((value){
-                                      showToast('Albums deleted successfully');
+                                    deleteSelectedPhotos().then((value){
+                                      value ? showToast('Photos deleted successfully') : showToast('Error deleting photos');
                                       deleteMode = false;
-                                      getAlbums();
                                       setState(() {
                                       });
                                       Navigator.pop(context);
@@ -177,7 +207,7 @@ class _AlbumsState extends State<Albums> {
                     },
                     child: Container(
                       margin: const EdgeInsets.all(5),
-                      child: Text("Delete selected ${deleteAlbums.length} albums",
+                      child: Text("Delete selected ${deletePhotos.length} photos",
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                             fontSize: 18,
@@ -195,23 +225,27 @@ class _AlbumsState extends State<Albums> {
     );
   }
 
-  Future<void> getAlbums() async {
-    var result = await httpApi.getAllPhotoAlbums();
-    albums.clear();
+  Future<void> getAllPhotos() async {
+    var result = await httpApi.getAllPhotos();
+    List<Photo> photos = [];
     for (var item in result['results']) {
-      albums.add(Album.fromJson(item));
+      photos.add(Photo.fromJson(item));
     }
-    setState(() {});
+    setState(() {
+      this.photos = photos;
+    });
   }
 
-  Future<bool> deleteSelectedAlbums() async {
+  Future<bool> deleteSelectedPhotos() async {
     try {
       loading = true;
-      for (var item in deleteAlbums) {
-        await httpApi.deletePhotoAlbum(item.id);
+      setState(() {
+      });
+      for (var item in deletePhotos) {
+        await httpApi.deletePhoto(item.id);
       }
-      deleteAlbums.clear();
-      await getAlbums();
+      deletePhotos.clear();
+      await getAllPhotos();
       loading = false;
       setState(() {
       });
