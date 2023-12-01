@@ -10,7 +10,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:photo_gallery/auth/domain/AppUser.dart';
 import 'package:photo_gallery/auth/services/AuthService.dart';
 import 'package:photo_gallery/auth/view/Login.dart';
-import 'package:photo_gallery/pages/Dashboard.dart';
+import 'package:photo_gallery/View/Dashboard.dart';
 import 'package:photo_gallery/routes.dart';
 import 'package:provider/provider.dart';
 
