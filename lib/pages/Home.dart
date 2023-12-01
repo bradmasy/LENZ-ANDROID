@@ -109,6 +109,7 @@ class _HomeState extends State<Home> {
 
   Future<void> getAllPhotos() async {
     var result = await httpApi.getAllPhotos();
+    print(result);
     List<Photo> photos = [];
     for (var item in result['results']) {
       photos.add(Photo.fromJson(item));

@@ -44,7 +44,6 @@ void main() {
       await pumpForSeconds(tester, 1);
       await tester.tap(find.byKey(const Key('add_album')));
       await pumpForSeconds(tester, 1);
-      //get timestamp
       String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
       await tester.enterText(find.byKey(const Key('title')), 'UITESTname$timestamp');
       await tester.enterText(find.byKey(const Key('description')), 'UITESTdescription');
