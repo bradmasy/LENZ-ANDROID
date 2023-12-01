@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:photo_gallery/pages/Albums.dart';
+import 'package:photo_gallery/pages/AllAlbums.dart';
 import 'package:photo_gallery/pages/MapPage.dart';
 
 import 'AllPhotos.dart';

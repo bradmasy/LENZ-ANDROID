@@ -9,7 +9,7 @@ import 'package:photo_gallery/pages/AlbumPhotos.dart';
 import 'package:provider/provider.dart';
 import 'package:camera/camera.dart';
 import 'package:photo_gallery/pages/AddPhoto.dart';
-import 'package:photo_gallery/pages/Albums.dart';
+import 'package:photo_gallery/pages/AllAlbums.dart';
 import 'package:photo_gallery/pages/AddAlbum.dart';
 import 'package:photo_gallery/pages/AllPhotos.dart';
 import 'package:photo_gallery/pages/dashboard.dart';

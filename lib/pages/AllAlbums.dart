@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:oktoast/oktoast.dart';
 
 import '../DataModel/GlobalDataModel.dart';
-import '../components/AlbumTile1.dart';
+import '../components/AlbumTile.dart';
 
 class Albums extends StatefulWidget {
   const Albums({Key? key}) : super(key: key);
